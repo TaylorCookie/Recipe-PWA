@@ -1,0 +1,45 @@
+a {
+  color: inherit;
+}
+
+.card .card-image img {
+  border-radius: 5px 5px 0 0;
+}
+
+.card {
+  border-radius: 5px;
+}
+
+.card-content {
+  background-color: #fffec3;
+}
+
+.favorite_btn {
+  background-color: #ff625e;
+}
+
+.card_info_container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.card-image {
+  height: 250px;
+}
+
+.card_image {
+  height: 100%;
+}
+
+.card-title {
+  font-weight: bold;
+  padding-bottom: 15px;
+}
+
+.card_info {
+  display: flex;
+}
+
+.card_info_icon {
+  padding-right: 2px;
+}
