@@ -1,9 +1,11 @@
+<div class="cards_container container-fluid" *ngIf="cards.length === 0">
+  <div *ngFor="let card of loadingCards" class="card_container">
+    <app-skeleton-loading-cards></app-skeleton-loading-cards>
+  </div>
+</div>
+
 <div class="cards_container container-fluid" *ngIf="cards">
   <div *ngFor="let card of cards" class="card_container">
     <app-card-details [recipe]="card"></app-card-details>
   </div>
-</div>
-
-<div *ngIf="cards.length === 0" class="loading_indicator">
-  <app-loading-indicator></app-loading-indicator>
 </div>

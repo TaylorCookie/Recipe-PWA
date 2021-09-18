@@ -8,6 +8,7 @@ import { CardsComponent } from './cards/cards.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { LoadingIndicatorComponent } from './loading-indicator/loading-indicator.component';
 import { AddRecipeFormComponent } from './add-recipe-form/add-recipe-form.component';
+import { SkeletonLoadingCardsComponent } from './skeleton-loading-cards/skeleton-loading-cards.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { AddRecipeFormComponent } from './add-recipe-form/add-recipe-form.compon
     CardsComponent,
     NavbarComponent,
     LoadingIndicatorComponent,
-    AddRecipeFormComponent
+    AddRecipeFormComponent,
+    SkeletonLoadingCardsComponent
   ],
   imports: [
     BrowserModule,

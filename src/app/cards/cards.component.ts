@@ -10,11 +10,13 @@ import { RECIPES } from 'src/assets/mock-recipes';
 export class CardsComponent implements OnInit {
   cards: Recipe[] = [];
 
+  loadingCards: any[] = Array(12).fill(null);
+
   constructor() {}
 
   ngOnInit(): void {
     setTimeout(() => {
       this.cards = RECIPES;
-    }, 1000);
+    }, 5000);
   }
 }
