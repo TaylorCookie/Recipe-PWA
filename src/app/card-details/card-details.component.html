@@ -1,14 +1,23 @@
 <div *ngIf="recipe">
   <div class="card">
-    <a href="">
+    <a href="/recipe/{{ recipe.id }}">
       <div class="card-image">
         <img class="card_image" src="{{ recipe.imageSrc }}" />
-        <a href="test" class="btn-floating halfway-fab favorite_btn"
+        <a
+          *ngIf="recipe.favorite"
+          href="test"
+          class="btn-floating halfway-fab favorite_btn_true"
+          ><i class="material-icons">favorite</i></a
+        >
+        <a
+          *ngIf="!recipe.favorite"
+          href="test"
+          class="btn-floating halfway-fab favorite_btn_false"
           ><i class="material-icons">favorite</i></a
         >
       </div>
 
-      <div class="card-content">
+      <div class="card-content" style.backgroundColor="{{ backgroundColor }}">
         <span class="card-title">{{ recipe.title }}</span>
 
         <div class="card_info_container">

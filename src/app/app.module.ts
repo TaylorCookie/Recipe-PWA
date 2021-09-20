@@ -10,6 +10,10 @@ import { LoadingIndicatorComponent } from './loading-indicator/loading-indicator
 import { AddRecipeFormComponent } from './add-recipe-form/add-recipe-form.component';
 import { SkeletonLoadingCardsComponent } from './skeleton-loading-cards/skeleton-loading-cards.component';
 
+import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RecipeEditorComponent } from './recipe-editor/recipe-editor.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -18,13 +22,16 @@ import { SkeletonLoadingCardsComponent } from './skeleton-loading-cards/skeleton
     NavbarComponent,
     LoadingIndicatorComponent,
     AddRecipeFormComponent,
-    SkeletonLoadingCardsComponent
+    SkeletonLoadingCardsComponent,
+    RecipeEditorComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ReactiveFormsModule,
+    HttpClientModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Recipe } from 'src/assets/interfaces/recipe';
-import { RECIPES } from 'src/assets/mock-recipes';
+import { RecipeService } from '../recipe.service';
 
 @Component({
   selector: 'app-cards',
@@ -9,14 +9,15 @@ import { RECIPES } from 'src/assets/mock-recipes';
 })
 export class CardsComponent implements OnInit {
   cards: Recipe[] = [];
-
   loadingCards: any[] = Array(12).fill(null);
 
-  constructor() {}
+  constructor(private recipeService: RecipeService) {}
 
   ngOnInit(): void {
     setTimeout(() => {
-      this.cards = RECIPES;
-    }, 5000);
+      this.recipeService
+        .getRecipes()
+        .subscribe((recipes: Recipe[]) => (this.cards = recipes));
+    }, 1000);
   }
 }

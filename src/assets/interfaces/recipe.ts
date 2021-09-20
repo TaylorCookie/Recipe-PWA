@@ -7,4 +7,7 @@ export interface Recipe {
   serves: number;
   imageSrc: string;
   favorite: boolean;
+  ingredients: string[];
+  instructions: string[];
+  notes: string[];
 }

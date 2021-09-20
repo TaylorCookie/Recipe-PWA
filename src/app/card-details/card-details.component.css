@@ -10,12 +10,17 @@ a {
   border-radius: 5px;
 }
 
-.card-content {
+/* .card-content {
   background-color: #fffec3;
+} */
+
+.favorite_btn_true {
+  background-color: #ff625e;
 }
 
-.favorite_btn {
-  background-color: #ff625e;
+.favorite_btn_false {
+  /* background-color: #ff625e; */
+  background-color: #b3b3b3;
 }
 
 .card_info_container {

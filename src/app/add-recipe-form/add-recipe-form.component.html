@@ -1,1 +1,108 @@
-<p>add-recipe-form works!</p>
+<div class="recipePage container">
+  <h2>Add New Recipe</h2>
+  <form [formGroup]="recipeForm" (submit)="validateSubmit()" ngNativeValidate>
+    <div class="input-field">
+      <label for="title">Recipe Name: </label>
+      <input id="title" type="text" formControlName="title" required />
+    </div>
+
+    <div class="input-field">
+      <label for="serves">Serves How Many People: </label>
+      <input id="serves" type="number" formControlName="serves" required />
+    </div>
+
+    <div class="input-field">
+      <label for="time">Time in Minutes: </label>
+      <input id="time" type="number" formControlName="time" required />
+    </div>
+
+    <label for="imageSrc">Image: </label>
+    <div class="image_upload">
+      <input
+        id="imageSrc"
+        type="file"
+        formControlName="imageSrc"
+        (change)="onFileSelected($event)"
+      />
+    </div>
+
+    <div formArrayName="ingredients" class="ingredients_container">
+      <h4>Ingredients:</h4>
+      <div
+        class="ingredient_container"
+        *ngFor="let ingredient of ingredients.controls; let i = index"
+      >
+        <label class="ingredient_number" for="ingredient-{{ i }}"
+          >Ingredient {{ i + 1 }}:</label
+        >
+
+        <div class="ingredient_box">
+          <div class="input-field">
+            <label for="ingredient-name-{{ i }}">Ingredient Name:</label>
+            <input
+              id="ingredient-name-{{ i }}"
+              type="text"
+              [formControlName]="i"
+            />
+          </div>
+
+          <div class="input-field">
+            <label for="ingredient-quantity-{{ i }}"
+              >Ingredient Quantity:</label
+            >
+            <input id="ingredient-quantity-{{ i }}" type="number" />
+          </div>
+
+          <label for="ingredient-measurement-{{ i }}"
+            >Ingredient Measurement:</label
+          >
+          <input
+            id="ingredient-measurement-{{ i }}"
+            type="text"
+            placeholder="tablespoon, cup, ounce, etc."
+          />
+        </div>
+      </div>
+      <button (click)="addIngredients($event)">+ Add another ingredient</button>
+    </div>
+
+    <div formArrayName="instructions" class="instructions_container">
+      <h4>Instructions:</h4>
+      <div *ngFor="let instruction of instructions.controls; let i = index">
+        <label for="instruction-{{ i }}">Instruction {{ i + 1 }}:</label>
+        <textarea
+          class="instruction_textbox"
+          id="instruction-{{ i }}"
+          type="textarea"
+          [formControlName]="i"
+        ></textarea>
+      </div>
+      <button (click)="addInstructions($event)">
+        + Add another instruction
+      </button>
+    </div>
+
+    <h4>Tags:</h4>
+    <div class="input-field">
+      <label for="primaryTag">Primary Tag: </label>
+      <input
+        id="primaryTag"
+        type="text"
+        formControlName="primaryTag"
+        required
+      />
+    </div>
+
+    <div formArrayName="tags">
+      <div *ngFor="let tag of tags.controls; let i = index">
+        <div class="input-field">
+          <label for="tag-{{ i }}">Additional Tag:</label>
+          <input id="tag-{{ i }}" type="text" [formControlName]="i" />
+        </div>
+      </div>
+      <button (click)="addTags($event)">+ Add another tag</button>
+    </div>
+
+    <button type="submit">Submit</button>
+  </form>
+</div>
