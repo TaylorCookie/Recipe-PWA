@@ -37,4 +37,11 @@ export class RecipeService {
   getRandomBackgroundColor(): string {
     return `hsl(${Math.floor(Math.random() * 360)}, 70%, 90%)`;
   }
+
+  favoriteRecipe(id: number): void {
+    //PLACEHOLDER FOR LATER HTTP PATCH REQUEST
+    RECIPES.find((r) => r.id === id)!.favorite = !RECIPES.find(
+      (r) => r.id === id
+    )!.favorite;
+  }
 }

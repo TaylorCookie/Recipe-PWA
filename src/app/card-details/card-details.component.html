@@ -1,17 +1,58 @@
 <div *ngIf="recipe">
   <div class="card">
+    <div class="card-image">
+      <a href="/recipe/{{ recipe.id }}">
+        <img class="card_image" src="{{ recipe.imageSrc }}" />
+      </a>
+
+      <button
+        (click)="updateFavorite($event, recipe.id)"
+        class="btn-floating halfway-fab btn_base"
+      >
+        <i class="material-icons" [class.favorite_btn]="recipe.favorite"
+          >favorite</i
+        >
+      </button>
+    </div>
+
+    <a href="/recipe/{{ recipe.id }}">
+      <div class="card-content" style.backgroundColor="{{ backgroundColor }}">
+        <span class="card-title">{{ recipe.title }}</span>
+
+        <div class="card_info_container">
+          <div class="card_info">
+            <i class="material-icons card_info_icon">schedule</i
+            ><span>{{ timeFormatted }}</span>
+          </div>
+          <div class="card_info">
+            <i class="material-icons card_info_icon">restaurant_menu</i
+            ><span>{{ recipe.primaryTag }}</span>
+          </div>
+          <div class="card_info">
+            <i class="material-icons card_info_icon">people </i
+            ><span>{{ recipe.serves }}</span>
+          </div>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<!-- <div *ngIf="recipe">
+  <div class="card">
     <a href="/recipe/{{ recipe.id }}">
       <div class="card-image">
         <img class="card_image" src="{{ recipe.imageSrc }}" />
-        <a
+        <button
           *ngIf="recipe.favorite"
-          href="test"
+          (click)="updateFavorite(recipe.id)"
           class="btn-floating halfway-fab favorite_btn_true"
-          ><i class="material-icons">favorite</i></a
         >
+          <i class="material-icons">favorite</i>
+        </button>
         <a
           *ngIf="!recipe.favorite"
-          href="test"
+          (click)="updateFavorite(recipe.id)"
           class="btn-floating halfway-fab favorite_btn_false"
           ><i class="material-icons">favorite</i></a
         >
@@ -37,4 +78,4 @@
       </div>
     </a>
   </div>
-</div>
+</div> -->

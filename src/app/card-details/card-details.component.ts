@@ -17,4 +17,10 @@ export class CardDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.timeFormatted = this.recipeService.convertTime(this.recipe?.time);
   }
+
+  updateFavorite(event: any, id: number): void {
+    this.recipeService.favoriteRecipe(id);
+
+    event.target.classList.toggle('favorite_btn');
+  }
 }
