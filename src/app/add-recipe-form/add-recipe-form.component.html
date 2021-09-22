@@ -16,14 +16,17 @@
       <input id="time" type="number" formControlName="time" required />
     </div>
 
-    <label for="imageSrc">Image: </label>
-    <div class="image_upload">
-      <input
-        id="imageSrc"
-        type="file"
-        formControlName="imageSrc"
-        (change)="onFileSelected($event)"
-      />
+    <div class="image_container">
+      <h4>Image:</h4>
+      <label for="imageSrc"></label>
+      <div class="image_upload">
+        <input
+          id="imageSrc"
+          type="file"
+          formControlName="imageSrc"
+          (change)="onFileSelected($event)"
+        />
+      </div>
     </div>
 
     <div formArrayName="ingredients" class="ingredients_container">
@@ -43,6 +46,7 @@
               id="ingredient-name-{{ i }}"
               type="text"
               [formControlName]="i"
+              placeholder="flour, salt, carrot"
             />
           </div>
 
@@ -50,7 +54,11 @@
             <label for="ingredient-quantity-{{ i }}"
               >Ingredient Quantity:</label
             >
-            <input id="ingredient-quantity-{{ i }}" type="number" />
+            <input
+              id="ingredient-quantity-{{ i }}"
+              type="number"
+              placeholder="1, 2, 3"
+            />
           </div>
 
           <label for="ingredient-measurement-{{ i }}"
@@ -59,7 +67,7 @@
           <input
             id="ingredient-measurement-{{ i }}"
             type="text"
-            placeholder="tablespoon, cup, ounce, etc."
+            placeholder="tablespoon, cup, ounce"
           />
         </div>
       </div>
@@ -89,6 +97,7 @@
         id="primaryTag"
         type="text"
         formControlName="primaryTag"
+        placeholder="vegetarian, quick, salad, dinner"
         required
       />
     </div>
@@ -97,7 +106,12 @@
       <div *ngFor="let tag of tags.controls; let i = index">
         <div class="input-field">
           <label for="tag-{{ i }}">Additional Tag:</label>
-          <input id="tag-{{ i }}" type="text" [formControlName]="i" />
+          <input
+            id="tag-{{ i }}"
+            type="text"
+            [formControlName]="i"
+            placeholder="vegetarian, quick, salad, dinner"
+          />
         </div>
       </div>
       <button (click)="addTags($event)">+ Add another tag</button>

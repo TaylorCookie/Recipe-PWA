@@ -1,18 +1,30 @@
 import { Injectable } from '@angular/core';
 import { Recipe } from 'src/assets/interfaces/recipe';
 import { RECIPES } from 'src/assets/mock-recipes';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RecipeService {
-  constructor() {}
+  configUrl = 'localhost:8080/';
+  // headers = new HttpHeaders()
+  //   .set('mode', 'no-cors')
+  //   .set('Access-Control-Allow-Origin', '*');
+
+  constructor(private http: HttpClient) {}
 
   getRecipes(): Observable<Recipe[]> {
-    const recipes = RECIPES;
-    return of(recipes);
+    return of(RECIPES);
+
+    // return this.http.get<Recipe[]>(`${this.configUrl}recipes`);
   }
+
+  // getRecipes(): Observable<Recipe[]> {
+  //   const recipes = RECIPES;
+  //   return of(recipes);
+  // }
 
   getRecipeByID(id: number): Observable<Recipe> {
     const recipe = RECIPES.find((r) => r.id === id)!;

@@ -1,11 +1,13 @@
-<div class="cards_container container-fluid" *ngIf="cards.length === 0">
-  <div *ngFor="let card of loadingCards" class="card_container">
-    <app-skeleton-loading-cards></app-skeleton-loading-cards>
+<div class="wrapper">
+  <div class="cards_container" *ngIf="cards.length === 0">
+    <div *ngFor="let card of loadingCards" class="card_container">
+      <app-skeleton-loading-cards></app-skeleton-loading-cards>
+    </div>
   </div>
-</div>
 
-<div class="cards_container container-fluid" *ngIf="cards">
-  <div *ngFor="let card of cards" class="card_container">
-    <app-card-details [recipe]="card"></app-card-details>
+  <div class="cards_container" *ngIf="cards">
+    <div *ngFor="let card of cards" class="card_container">
+      <app-card-details [recipe]="card"></app-card-details>
+    </div>
   </div>
 </div>
