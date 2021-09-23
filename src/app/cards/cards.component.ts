@@ -14,10 +14,8 @@ export class CardsComponent implements OnInit {
   constructor(private recipeService: RecipeService) {}
 
   ngOnInit(): void {
-    setTimeout(() => {
-      this.recipeService
-        .getRecipes()
-        .subscribe((recipes: Recipe[]) => (this.cards = recipes));
-    }, 1000);
+    this.recipeService.getRecipes().subscribe((recipes: Recipe[]) => {
+      this.cards = recipes;
+    });
   }
 }

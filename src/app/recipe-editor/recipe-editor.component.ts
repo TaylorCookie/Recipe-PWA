@@ -21,18 +21,15 @@ export class RecipeEditorComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    setTimeout(() => {
-      this.getRecipe();
-    }, 0);
+    this.getRecipe();
   }
 
   getRecipe(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
 
-    this.recipeService
-      .getRecipeByID(id)
-      .subscribe((recipe: Recipe) => (this.recipe = recipe));
-
-    this.timeFormatted = this.recipeService.convertTime(this.recipe?.time);
+    this.recipeService.getRecipeByID(id).subscribe((recipe: Recipe) => {
+      this.recipe = recipe;
+      this.timeFormatted = this.recipeService.convertTime(recipe.time);
+    });
   }
 }

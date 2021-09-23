@@ -23,6 +23,19 @@ a {
   height: 250px;
 }
 
+.card_heroku_warning {
+  background-color: hsl(200, 20%, 90%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  font-weight: bold;
+}
+
+.heroku_span {
+  text-decoration: underline;
+}
+
 .card_image {
   height: 100%;
 }
@@ -57,14 +70,9 @@ a {
   border-radius: 0.2rem;
 }
 
-/* .skeleton-text:last-child {
-  margin-bottom: 0;
-  width: 80%;
-} */
-
 @keyframes skeleton-loading {
   0% {
-    background-color: hsl(200, 20%, 70%);
+    background-color: hsl(200, 20%, 80%);
   }
 
   100% {

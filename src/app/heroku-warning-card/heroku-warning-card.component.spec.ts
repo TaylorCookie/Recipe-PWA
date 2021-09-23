@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LoadingIndicatorComponent } from './loading-indicator.component';
+import { HerokuWarningCardComponent } from './heroku-warning-card.component';
 
-describe('LoadingIndicatorComponent', () => {
-  let component: LoadingIndicatorComponent;
-  let fixture: ComponentFixture<LoadingIndicatorComponent>;
+describe('HerokuWarningCardComponent', () => {
+  let component: HerokuWarningCardComponent;
+  let fixture: ComponentFixture<HerokuWarningCardComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LoadingIndicatorComponent ]
+      declarations: [ HerokuWarningCardComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LoadingIndicatorComponent);
+    fixture = TestBed.createComponent(HerokuWarningCardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -29,6 +29,11 @@ h4 {
   margin-bottom: 50px;
 }
 
+.examples {
+  opacity: 0.4;
+  margin-left: 10px;
+}
+
 .ingredient_container {
   border: solid black 1px;
   margin-bottom: 10px;

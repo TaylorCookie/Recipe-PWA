@@ -1,20 +1,20 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
+import { HttpErrorInterceptor } from './http-error-interceptor.interceptor';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CardDetailsComponent } from './card-details/card-details.component';
 import { CardsComponent } from './cards/cards.component';
 import { NavbarComponent } from './navbar/navbar.component';
-import { LoadingIndicatorComponent } from './loading-indicator/loading-indicator.component';
 import { AddRecipeFormComponent } from './add-recipe-form/add-recipe-form.component';
 import { SkeletonLoadingCardsComponent } from './skeleton-loading-cards/skeleton-loading-cards.component';
-
-import { HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
 import { RecipeEditorComponent } from './recipe-editor/recipe-editor.component';
-import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from '../environments/environment';
+import { HerokuWarningCardComponent } from './heroku-warning-card/heroku-warning-card.component';
 
 @NgModule({
   declarations: [
@@ -22,10 +22,10 @@ import { environment } from '../environments/environment';
     CardDetailsComponent,
     CardsComponent,
     NavbarComponent,
-    LoadingIndicatorComponent,
     AddRecipeFormComponent,
     SkeletonLoadingCardsComponent,
     RecipeEditorComponent,
+    HerokuWarningCardComponent,
   ],
   imports: [
     BrowserModule,
@@ -36,10 +36,16 @@ import { environment } from '../environments/environment';
       enabled: environment.production,
       // Register the ServiceWorker as soon as the app is stable
       // or after 30 seconds (whichever comes first).
-      registrationStrategy: 'registerWhenStable:30000'
+      registrationStrategy: 'registerWhenStable:30000',
     }),
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

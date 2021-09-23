@@ -2,7 +2,18 @@
   <div class="card" id="card-template">
     <a href="">
       <div class="card-image">
-        <div class="card_image skeleton"></div>
+        <div *ngIf="herokuWarning" class="card_image card_heroku_warning">
+          <p>
+            The API this application gets its information from is hosted on
+            Heroku. Heroku puts the server to sleep if inactive for 30 minutes.
+            <span class="heroku_span"
+              >Please wait up to 30 seconds for the content to load, after which
+              everything will move quickly</span
+            >. Thank you for your patience!
+          </p>
+        </div>
+        <div *ngIf="!herokuWarning" class="card_image skeleton"></div>
+
         <a href="test" class="btn-floating halfway-fab favorite_btn"></a>
       </div>
 

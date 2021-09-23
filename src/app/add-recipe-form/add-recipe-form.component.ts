@@ -160,7 +160,7 @@ export class AddRecipeFormComponent {
     this.newRecipe = {
       title: this.recipeForm.get('title')?.value,
       serves: <number>this.recipeForm.get('serves')?.value,
-      time: <number>this.recipeForm.get('serves')?.value,
+      time: <number>this.recipeForm.get('time')?.value,
       primaryTag: this.recipeForm.get('primaryTag')?.value,
       tags: cleanedTags,
       imageSrc: this.checkEmptyImage(), //call to check if image src is empty

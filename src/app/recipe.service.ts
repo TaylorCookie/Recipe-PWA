@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Recipe } from 'src/assets/interfaces/recipe';
 import { NewRecipe } from 'src/assets/interfaces/newRecipe';
-import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RecipeService {
   configUrl = 'https://springboot-recipe-api.herokuapp.com/';
+  errorMessage?: string;
 
   constructor(private http: HttpClient) {}
 
@@ -69,4 +70,15 @@ export class RecipeService {
   getRandomBackgroundColor(): string {
     return `hsl(${Math.floor(Math.random() * 360)}, 70%, 90%)`;
   }
+}
+function retry(
+  arg0: number
+): import('rxjs').OperatorFunction<Recipe[], unknown> {
+  throw new Error('Function not implemented.');
+}
+
+function catchError(
+  handleError: any
+): import('rxjs').OperatorFunction<unknown, Recipe[]> {
+  throw new Error('Function not implemented.');
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-skeleton-loading-cards',
@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./skeleton-loading-cards.component.css'],
 })
 export class SkeletonLoadingCardsComponent implements OnInit {
+  @Input() herokuWarning: boolean = false;
+
   constructor() {}
 
   ngOnInit(): void {}

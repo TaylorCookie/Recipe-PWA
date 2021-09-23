@@ -1,7 +1,12 @@
 <div class="wrapper">
   <div class="cards_container" *ngIf="cards.length === 0">
-    <div *ngFor="let card of loadingCards" class="card_container">
-      <app-skeleton-loading-cards></app-skeleton-loading-cards>
+    <div
+      *ngFor="let card of loadingCards; let i = index"
+      class="card_container"
+    >
+      <app-skeleton-loading-cards
+        [herokuWarning]="i === 0"
+      ></app-skeleton-loading-cards>
     </div>
   </div>
 

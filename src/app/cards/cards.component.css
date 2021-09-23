@@ -1,3 +1,15 @@
+.error_overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: darkgrey;
+  z-index: 1000;
+  opacity: 0.8;
+  text-align: center;
+}
+
 .wrapper {
   max-width: 1400px;
   margin: auto;
@@ -9,6 +21,8 @@
   justify-content: center;
   align-items: center;
   margin-bottom: 100px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .card_container {
