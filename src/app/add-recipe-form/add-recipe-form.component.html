@@ -1,6 +1,6 @@
 <div class="recipePage container">
   <h2>Add New Recipe</h2>
-  <form [formGroup]="recipeForm" (submit)="validateSubmit()" ngNativeValidate>
+  <form [formGroup]="recipeForm" (submit)="formSubmit()" ngNativeValidate>
     <div class="input-field">
       <label for="title">Recipe Name: </label>
       <input id="title" type="text" formControlName="title" required />
@@ -16,7 +16,8 @@
       <input id="time" type="number" formControlName="time" required />
     </div>
 
-    <div class="image_container">
+    <!-- Placeholder for uploading image -->
+    <!-- <div class="image_container">
       <h4>Image:</h4>
       <label for="imageSrc"></label>
       <div class="image_upload">
@@ -26,6 +27,14 @@
           formControlName="imageSrc"
           (change)="onFileSelected($event)"
         />
+      </div>
+    </div> -->
+
+    <div class="image_container">
+      <h4>Image URL:</h4>
+      <div class="input-field">
+        <label for="imageSrc"></label>
+        <input id="imageSrc" type="url" formControlName="imageSrc" />
       </div>
     </div>
 
@@ -88,6 +97,20 @@
       <button (click)="addInstructions($event)">
         + Add another instruction
       </button>
+    </div>
+
+    <div formArrayName="notes" class="instructions_container">
+      <h4>Notes:</h4>
+      <div *ngFor="let note of notes.controls; let i = index">
+        <label for="note-{{ i }}">Note {{ i + 1 }}:</label>
+        <textarea
+          class="instruction_textbox"
+          id="note-{{ i }}"
+          type="textarea"
+          [formControlName]="i"
+        ></textarea>
+      </div>
+      <button (click)="addNotes($event)">+ Add another note</button>
     </div>
 
     <h4>Tags:</h4>

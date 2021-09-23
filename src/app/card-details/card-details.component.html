@@ -6,7 +6,7 @@
       </a>
 
       <button
-        (click)="updateFavorite($event, recipe.id)"
+        (click)="updateFavorite($event, recipe.id, recipe)"
         class="btn-floating halfway-fab btn_base"
       >
         <i class="material-icons" [class.favorite_btn]="recipe.favorite"

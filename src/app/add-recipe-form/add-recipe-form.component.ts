@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormArray } from '@angular/forms';
 import { Validators } from '@angular/forms';
-import { Recipe } from 'src/assets/interfaces/recipe';
+import { NewRecipe } from 'src/assets/interfaces/newRecipe';
 
 import { FileUploadService } from '../file-upload.service';
+import { RecipeService } from '../recipe.service';
 
 @Component({
   selector: 'app-add-recipe-form',
@@ -11,7 +12,7 @@ import { FileUploadService } from '../file-upload.service';
   styleUrls: ['./add-recipe-form.component.css'],
 })
 export class AddRecipeFormComponent {
-  newRecipe?: Recipe;
+  newRecipe?: NewRecipe;
   imageToUpload?: File;
   shortLink: string = '';
   loading: boolean = false;
@@ -27,11 +28,13 @@ export class AddRecipeFormComponent {
     tags: this.fb.array([this.fb.control('')], Validators.required),
     ingredients: this.fb.array([this.fb.control('')], Validators.required),
     instructions: this.fb.array([this.fb.control('')], Validators.required),
+    notes: this.fb.array([this.fb.control('')], Validators.required),
   });
 
   constructor(
     private fb: FormBuilder,
-    private fileUploadService: FileUploadService
+    private fileUploadService: FileUploadService,
+    private recipeService: RecipeService
   ) {}
 
   ngOnInit(): void {}
@@ -48,6 +51,10 @@ export class AddRecipeFormComponent {
     return this.recipeForm.get('instructions') as FormArray;
   }
 
+  get notes() {
+    return this.recipeForm.get('notes') as FormArray;
+  }
+
   addTags(event: any) {
     event.preventDefault();
     this.tags.push(this.fb.control(''));
@@ -61,6 +68,11 @@ export class AddRecipeFormComponent {
   addInstructions(event: any) {
     event.preventDefault();
     this.instructions.push(this.fb.control(''));
+  }
+
+  addNotes(event: any) {
+    event.preventDefault();
+    this.notes.push(this.fb.control(''));
   }
 
   onFileSelected(event: any) {
@@ -102,56 +114,65 @@ export class AddRecipeFormComponent {
     return cleanedArr;
   }
 
-  validateSubmit() {
-    this.formSubmit();
+  checkEmptyImage(): string {
+    if (this.recipeForm.get('imageSrc')?.value) {
+      return this.recipeForm.get('imageSrc')?.value;
+    }
+
+    return '../../assets/images/placeholder.png';
+  }
+
+  imageUpload() {
+    ///////////////////////////////////////////////////////
+    // PLACEHOLDER FOR IMAGE UPLOAD////////////////////////
+    ///////////////////////////////////////////////////////
+    // if (this.imageToUpload) {
+    //   //actually upload the image
+    //   console.log('Uploading');
+    //   this.loading = !this.loading;
+    //   console.log(this.imageToUpload);
+    //   this.fileUploadService
+    //     .upload(this.imageToUpload)
+    //     .subscribe((event: any) => {
+    //       if (typeof event === 'object') {
+    //         // Short link via api response
+    //         this.shortLink = event.link;
+    //         this.loading = false;
+    //         console.log(this.shortLink);
+    //       }
+    //     });
+    // }
   }
 
   formSubmit() {
+    //format the different submissions
     const ingStructured = this.structureIngredients();
     const cleanedInstructions = this.sanitize(
       this.recipeForm.get('instructions')?.value
     );
+    const cleanedNotes = this.sanitize(this.recipeForm.get('notes')?.value);
     const cleanedTags = [
       this.recipeForm.get('primaryTag')?.value,
       ...this.sanitize(this.recipeForm.get('tags')?.value),
     ];
 
+    //set the recipe to be sent
     this.newRecipe = {
-      id: 1,
       title: this.recipeForm.get('title')?.value,
       serves: <number>this.recipeForm.get('serves')?.value,
       time: <number>this.recipeForm.get('serves')?.value,
       primaryTag: this.recipeForm.get('primaryTag')?.value,
       tags: cleanedTags,
-      imageSrc: this.recipeForm.get('imageSrc')?.value,
+      imageSrc: this.checkEmptyImage(), //call to check if image src is empty
       favorite: false,
       instructions: cleanedInstructions,
       ingredients: ingStructured,
-      notes: [],
+      notes: cleanedNotes,
     };
 
-    if (this.imageToUpload) {
-      //actually upload the image
-      console.log('Uploading');
-
-      this.loading = !this.loading;
-      console.log(this.imageToUpload);
-      this.fileUploadService
-        .upload(this.imageToUpload)
-        .subscribe((event: any) => {
-          if (typeof event === 'object') {
-            // Short link via api response
-            this.shortLink = event.link;
-
-            this.loading = false;
-
-            console.log(this.shortLink);
-          }
-        });
-    }
-
-    //ADD A POST HERE LATER//
-
-    console.log(this.newRecipe);
+    //request to add the recipe
+    this.recipeService.addRecipe(this.newRecipe).subscribe((data) => {
+      console.log(data);
+    });
   }
 }

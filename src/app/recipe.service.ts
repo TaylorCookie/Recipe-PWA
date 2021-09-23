@@ -1,36 +1,56 @@
 import { Injectable } from '@angular/core';
 import { Recipe } from 'src/assets/interfaces/recipe';
-import { RECIPES } from 'src/assets/mock-recipes';
-import { Observable, of, throwError } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { NewRecipe } from 'src/assets/interfaces/newRecipe';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RecipeService {
-  configUrl = 'localhost:8080/';
-  // headers = new HttpHeaders()
-  //   .set('mode', 'no-cors')
-  //   .set('Access-Control-Allow-Origin', '*');
+  configUrl = 'https://springboot-recipe-api.herokuapp.com/';
 
   constructor(private http: HttpClient) {}
 
+  /////////////////////////////////////////
+  /*HTTP Requests*/ ////////////////////////
+  /////////////////////////////////////////
   getRecipes(): Observable<Recipe[]> {
-    return of(RECIPES);
-
-    // return this.http.get<Recipe[]>(`${this.configUrl}recipes`);
+    return this.http.get<Recipe[]>(`${this.configUrl}recipes`);
   }
-
-  // getRecipes(): Observable<Recipe[]> {
-  //   const recipes = RECIPES;
-  //   return of(recipes);
-  // }
 
   getRecipeByID(id: number): Observable<Recipe> {
-    const recipe = RECIPES.find((r) => r.id === id)!;
-    return of(recipe);
+    return this.http.get<Recipe>(`${this.configUrl}recipe/${id}`);
   }
 
+  addRecipe(recipe: NewRecipe): Observable<Recipe> {
+    return this.http.post<Recipe>(`${this.configUrl}add-recipe`, recipe);
+  }
+
+  deleteRecipe(id: number): Observable<Recipe> {
+    return this.http.delete<Recipe>(`${this.configUrl}delete-recipe/${id}`);
+  }
+
+  updateRecipe(recipe: Recipe, id: number): Observable<ArrayBuffer> {
+    return this.http.put<ArrayBuffer>(
+      `${this.configUrl}update-recipe/${id}`,
+      recipe
+    );
+  }
+
+  favoriteRecipe(recipe: Recipe, id: number): Observable<ArrayBuffer> {
+    //reverse the favorite before sending request
+    recipe.favorite = !recipe.favorite;
+
+    return this.http.put<ArrayBuffer>(
+      `${this.configUrl}update-recipe/${id}`,
+      recipe
+    );
+  }
+
+  /////////////////////////////////////////
+  /*Functions used by multiple components*/
+  /////////////////////////////////////////
   convertTime(time: number | undefined): string {
     if (time === undefined) return '';
 
@@ -48,12 +68,5 @@ export class RecipeService {
 
   getRandomBackgroundColor(): string {
     return `hsl(${Math.floor(Math.random() * 360)}, 70%, 90%)`;
-  }
-
-  favoriteRecipe(id: number): void {
-    //PLACEHOLDER FOR LATER HTTP PATCH REQUEST
-    RECIPES.find((r) => r.id === id)!.favorite = !RECIPES.find(
-      (r) => r.id === id
-    )!.favorite;
   }
 }

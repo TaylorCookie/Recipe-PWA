@@ -18,8 +18,10 @@ export class CardDetailsComponent implements OnInit {
     this.timeFormatted = this.recipeService.convertTime(this.recipe?.time);
   }
 
-  updateFavorite(event: any, id: number): void {
-    this.recipeService.favoriteRecipe(id);
+  updateFavorite(event: any, id: number, recipe: Recipe): void {
+    this.recipeService.favoriteRecipe(recipe, id).subscribe((res) => {
+      console.log(res);
+    });
 
     event.target.classList.toggle('favorite_btn');
   }
