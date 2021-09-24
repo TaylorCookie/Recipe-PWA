@@ -15,6 +15,7 @@ import { AddRecipeFormComponent } from './add-recipe-form/add-recipe-form.compon
 import { SkeletonLoadingCardsComponent } from './skeleton-loading-cards/skeleton-loading-cards.component';
 import { RecipeEditorComponent } from './recipe-editor/recipe-editor.component';
 import { HerokuWarningCardComponent } from './heroku-warning-card/heroku-warning-card.component';
+import { DisplayRecipeComponent } from './display-recipe/display-recipe.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { HerokuWarningCardComponent } from './heroku-warning-card/heroku-warning
     SkeletonLoadingCardsComponent,
     RecipeEditorComponent,
     HerokuWarningCardComponent,
+    DisplayRecipeComponent,
   ],
   imports: [
     BrowserModule,

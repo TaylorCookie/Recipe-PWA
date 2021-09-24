@@ -1,0 +1,115 @@
+h3,
+h5 {
+  margin: 0;
+}
+
+.recipe_container {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 100px;
+  margin-top: 10px;
+}
+
+.summary_container {
+  padding: 5px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  margin: 10px;
+}
+
+.favorite {
+  background-color: #b3b3b3;
+}
+
+.favorite_btn {
+  background-color: #ff625e;
+}
+
+.info_container {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 5px;
+}
+
+.icon_container {
+  display: flex;
+}
+
+.image_container {
+  margin-top: 10px;
+}
+
+.image {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.card_info_icon {
+  padding-right: 2px;
+}
+
+.ingredients_container {
+  border: 1px solid black;
+  padding: 10px;
+  margin-top: 30px;
+}
+
+.section_title {
+  text-decoration: underline;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.ingredient_listing {
+  text-align: left;
+  margin: 0;
+}
+
+.instructions_container {
+  padding: 2px;
+  margin-top: 30px;
+}
+
+.instructions_listing {
+  text-align: left;
+  margin-top: 5px;
+}
+
+.step_heading {
+  margin-right: 3px;
+  font-weight: bold;
+}
+
+.notes_container {
+  padding: 2px;
+  margin-top: 10px;
+}
+
+.notes_listing {
+  text-align: left;
+  margin-bottom: 5px;
+}
+
+.tags_container {
+  padding: 2px;
+  margin-top: 10px;
+}
+
+.tag_box {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.tag_listing {
+  margin-top: 8px;
+  margin-right: 8px;
+  margin-bottom: 0px;
+}

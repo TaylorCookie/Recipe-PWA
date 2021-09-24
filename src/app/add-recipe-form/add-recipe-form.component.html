@@ -40,43 +40,14 @@
 
     <div formArrayName="ingredients" class="ingredients_container">
       <h4>Ingredients:</h4>
-      <div
-        class="ingredient_container"
-        *ngFor="let ingredient of ingredients.controls; let i = index"
-      >
-        <label class="ingredient_number" for="ingredient-{{ i }}"
-          >Ingredient {{ i + 1 }}:</label
-        >
-
-        <div class="ingredient_box">
-          <div class="input-field">
-            <label for="ingredient-name-{{ i }}">Ingredient Name: </label>
-            <input
-              id="ingredient-name-{{ i }}"
-              type="text"
-              [formControlName]="i"
-              placeholder="flour, salt, carrot"
-            />
-          </div>
-
-          <div class="input-field">
-            <label for="ingredient-quantity-{{ i }}"
-              >Ingredient Quantity:</label
-            >
-            <input
-              id="ingredient-quantity-{{ i }}"
-              type="number"
-              placeholder="1, 2, 3"
-            />
-          </div>
-
-          <label for="ingredient-measurement-{{ i }}"
-            >Ingredient Measurement:</label
-          >
+      <div *ngFor="let ingredient of ingredients.controls; let i = index">
+        <div class="input-field">
+          <label for="ingredient-{{ i }}"></label>
           <input
-            id="ingredient-measurement-{{ i }}"
+            id="ingredient-{{ i }}"
             type="text"
-            placeholder="tablespoon, cup, ounce"
+            [formControlName]="i"
+            placeholder="1 1/2 cup flour"
           />
         </div>
       </div>
@@ -143,3 +114,5 @@
     <button type="submit">Submit</button>
   </form>
 </div>
+
+<div class="hide-on-med-and-down">Test</div>

@@ -1,0 +1,78 @@
+<form>
+  <div class="recipe_container container">
+    <div
+      class="summary_container"
+      style.backgroundColor="{{ backgroundColor }}"
+    >
+      <div class="header">
+        <button
+          class="btn-floating btn_base favorite"
+          [class.favorite_btn]="recipe?.favorite"
+          (click)="updateFavorite($event, recipe!.id, recipe!)"
+        >
+          <i class="material-icons">favorite</i>
+        </button>
+        <h3 class="title">{{ recipe?.title }}</h3>
+        <a href="/recipe-edit/{{ recipe?.id }}">
+          <button class="btn-floating btn_base edit">
+            <i class="material-icons">edit</i>
+          </button></a
+        >
+      </div>
+
+      <div class="image_container">
+        <img class="image" src="{{ recipe?.imageSrc }}" />
+      </div>
+
+      <div class="info_container">
+        <div class="icon_container">
+          <i class="material-icons card_info_icon">schedule</i
+          ><span>{{ timeFormatted }}</span>
+        </div>
+        <div class="icon_container">
+          <i class="material-icons card_info_icon">restaurant_menu</i
+          ><span>{{ recipe?.primaryTag }}</span>
+        </div>
+        <div class="icon_container">
+          <i class="material-icons card_info_icon">people </i
+          ><span>{{ recipe?.serves }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="ingredients_container">
+      <h5 class="section_title">Ingredients</h5>
+
+      <div *ngFor="let ing of recipe?.ingredients">
+        <p class="ingredient_listing">{{ ing }}</p>
+      </div>
+    </div>
+
+    <div class="instructions_container">
+      <h5 class="section_title">Instructions</h5>
+      <div *ngFor="let ins of recipe?.instructions; let i = index">
+        <p class="instructions_listing">
+          <span class="step_heading">Step {{ i + 1 }}: </span>{{ ins }}
+        </p>
+      </div>
+    </div>
+
+    <div class="notes_container">
+      <h5 class="section_title">Notes</h5>
+      <div *ngFor="let note of recipe?.notes; let i = index">
+        <p class="notes_listing">
+          {{ note }}
+        </p>
+      </div>
+    </div>
+
+    <div class="tags_container">
+      <h5 class="section_title">Tags</h5>
+      <div class="tag_box">
+        <p class="tag_listing" *ngFor="let tag of recipe?.tags; let i = index">
+          {{ tag }}
+        </p>
+      </div>
+    </div>
+  </div>
+</form>

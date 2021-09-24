@@ -18,14 +18,14 @@ a {
   background-color: #ff625e;
 }
 
-.favorite_btn_true {
+/* .favorite_btn_true {
   background-color: #ff625e;
 }
 
 .favorite_btn_false {
-  /* background-color: #ff625e; */
+  background-color: #ff625e;
   background-color: #b3b3b3;
-}
+} */
 
 .card_info_container {
   display: flex;

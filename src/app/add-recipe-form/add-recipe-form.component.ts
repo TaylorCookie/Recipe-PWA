@@ -81,35 +81,14 @@ export class AddRecipeFormComponent {
     console.log(this.imageToUpload);
   }
 
-  structureIngredients(): string[] {
-    const ingArr = this.recipeForm
-      .get('ingredients')
-      ?.value.map((ing: any, i: number) => {
-        if (ing == '') {
-          return '';
-        }
-
-        const quantity = <HTMLInputElement>(
-          document.getElementById(`ingredient-quantity-${i}`)
-        );
-        const measurement = <HTMLInputElement>(
-          document.getElementById(`ingredient-measurement-${i}`)
-        );
-
-        return `${quantity.value} ${measurement.value} ${ing}`.toLowerCase();
-      });
-
-    const cleanedIngs = ingArr.filter((ing: string) => {
-      return ing.length > 0;
-    });
-
-    return cleanedIngs;
-  }
-
   sanitize(input: string[]): string[] {
-    const cleanedArr = input.filter((s: string) => {
-      return s.length > 0;
-    });
+    const cleanedArr = input
+      .filter((s: string) => {
+        return s.length > 0;
+      })
+      .map((s: string) => {
+        return s.toLowerCase();
+      });
 
     return cleanedArr;
   }
@@ -146,7 +125,9 @@ export class AddRecipeFormComponent {
 
   formSubmit() {
     //format the different submissions
-    const ingStructured = this.structureIngredients();
+    const cleanedIngredients = this.sanitize(
+      this.recipeForm.get('ingredients')?.value
+    );
     const cleanedInstructions = this.sanitize(
       this.recipeForm.get('instructions')?.value
     );
@@ -166,9 +147,11 @@ export class AddRecipeFormComponent {
       imageSrc: this.checkEmptyImage(), //call to check if image src is empty
       favorite: false,
       instructions: cleanedInstructions,
-      ingredients: ingStructured,
+      ingredients: cleanedIngredients,
       notes: cleanedNotes,
     };
+
+    console.log(this.newRecipe);
 
     //request to add the recipe
     this.recipeService.addRecipe(this.newRecipe).subscribe((data) => {
