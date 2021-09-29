@@ -22,17 +22,14 @@ export class RecipeService {
   }
 
   getRecipeByID(id: number): Observable<Recipe> {
-    console.log(RECIPES[0]);
     return of(RECIPES[0]);
   }
 
   addRecipe(recipe: NewRecipe): Observable<Recipe> {
-    console.log(RECIPES[0]);
     return of(RECIPES[0]);
   }
 
   deleteRecipe(id: number): Observable<Recipe> {
-    console.log(RECIPES[0]);
     return of(RECIPES[0]);
   }
 

@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
 import { Recipe } from 'src/assets/interfaces/recipe';
 import { RecipeService } from '../recipe.service';
-import { FormGroup, FormControl, FormArray, FormBuilder } from '@angular/forms';
+import { FormControl, FormArray, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-recipe-editor',
@@ -12,15 +11,12 @@ import { FormGroup, FormControl, FormArray, FormBuilder } from '@angular/forms';
 })
 export class RecipeEditorComponent implements OnInit {
   recipe?: Recipe;
+  favorite?: boolean;
   recipeForm?: any;
-  currentIngredients: string[] = [];
-  currentInstructions: string[] = [];
-  currentNotes: string[] = [];
-  currentTags: string[] = [];
+  helpClicked: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
-    private location: Location,
     private recipeService: RecipeService,
     private fb: FormBuilder
   ) {}
@@ -43,19 +39,42 @@ export class RecipeEditorComponent implements OnInit {
         favorite: [this.recipe.favorite],
         imageSrc: [this.imageHandler()],
 
-        tags: this.fb.array([this.fb.control('')]),
-        ingredients: this.fb.array([this.fb.control('')]),
-        instructions: this.fb.array([this.fb.control('')]),
-        notes: this.fb.array([this.fb.control('')]),
+        tags: this.fb.array([]),
+        ingredients: this.fb.array([]),
+        instructions: this.fb.array([]),
+        notes: this.fb.array([]),
       });
 
-      this.currentIngredients = this.recipe.ingredients;
-      this.currentInstructions = this.recipe.instructions;
-      this.currentNotes = this.recipe.notes;
-      this.currentTags = this.recipe.tags;
+      //fill arrayforms with elements from current recipe
+      this.recipe.ingredients!.forEach((item) => {
+        this.ingredients.push(new FormControl(item));
+      });
+      this.recipe.instructions!.forEach((item) => {
+        this.instructions.push(new FormControl(item));
+      });
+      this.recipe.notes!.forEach((item) => {
+        this.notes.push(new FormControl(item));
+      });
+      this.recipe.tags!.forEach((item, i) => {
+        //ignore first item as it is the primary tag
+        if (i === 0) {
+          return;
+        }
+
+        this.tags.push(new FormControl(item));
+      });
+
+      //set the favorite so it can be sent at the end
+      this.favorite = this.recipe.favorite;
     });
   }
 
+  get title() {
+    return this.recipeForm.get('title') as string;
+  }
+  get primaryTag() {
+    return this.recipeForm.get('primaryTag') as string;
+  }
   get tags() {
     return this.recipeForm.get('tags') as FormArray;
   }
@@ -86,6 +105,54 @@ export class RecipeEditorComponent implements OnInit {
     this.notes.push(this.fb.control(''));
   }
 
+  updateFavorite(event: any, id: number, recipe: Recipe): void {
+    event.preventDefault();
+    this.favorite = !this.favorite;
+    event.target.classList.toggle('favorite_btn');
+  }
+
+  deleteRecipe(event: any, id: number, recipe: Recipe) {
+    event.preventDefault();
+
+    const res = window
+      .prompt(
+        `If you are sure you want to delete this recipe, type "${recipe.title}" below.`
+      )
+      ?.toLowerCase()
+      .trim();
+
+    if (res === recipe.title.toLowerCase().trim()) {
+      console.log('send delete request');
+    }
+  }
+
+  helpHover(className: string) {
+    //guard clause helps users who click on tooltip to have it remain on and uninterupted by mouseovers
+    if (this.helpClicked) {
+      return;
+    }
+
+    document.querySelector(`.${className}`)?.classList.toggle('hidden');
+  }
+
+  helpClick(className: string) {
+    this.helpClicked = !this.helpClicked;
+
+    //if true, show all tooltips on page
+    if (this.helpClicked) {
+      document.querySelectorAll('.tooltip')?.forEach((el) => {
+        el.classList.remove('hidden');
+      });
+    } else {
+      document.querySelectorAll('.tooltip')?.forEach((el) => {
+        el.classList.add('hidden');
+      });
+
+      //have to remove it on the one that was clicked
+      document.querySelector(`.${className}`)?.classList.remove('hidden');
+    }
+  }
+
   imageHandler() {
     if (this.recipe?.imageSrc === '../assets/images/placeholder.png') {
       return '';
@@ -94,9 +161,19 @@ export class RecipeEditorComponent implements OnInit {
     return this.recipe?.imageSrc;
   }
 
+  checkEmptyImage(): string {
+    if (this.recipeForm.get('imageSrc')?.value) {
+      return this.recipeForm.get('imageSrc')?.value;
+    }
+
+    return '../../assets/images/placeholder.png';
+  }
+
   removeIngredient(i: number) {
     //cast to HTMLInputElement for access to value
-    const el = <HTMLInputElement>document.getElementById(`ing-${i}`);
+    const el = <HTMLInputElement>(
+      document.getElementById(`ing-${i}`)?.closest('.ingredientsList')
+    );
 
     //guard clause for funny business happening
     if (!el) {
@@ -104,41 +181,129 @@ export class RecipeEditorComponent implements OnInit {
       return;
     }
 
-    //hide
     el!.style.display = 'none';
 
-    //filter out the removed ingredient from final list to be sent
-    this.currentIngredients = this.currentIngredients.filter((ing) => {
-      return ing !== el!.value;
-    });
+    //remove the element from the list
+    this.ingredients.removeAt(i);
   }
 
-  getFinalIngredients(type: string): string[] {
-    const cleanedIngredients = this.sanitize(this.recipeForm.get(type)?.value);
+  removeInstruction(i: number) {
+    //cast to HTMLInputElement for access to value
+    const el = <HTMLInputElement>(
+      document.getElementById(`ins-${i}`)?.closest('.instructionsList')
+    );
 
-    const nodeList = Array.from(document.querySelectorAll(`.${type}List`));
-    const editedIngredients = nodeList.map((node) => {
-      const element = <HTMLInputElement>node.childNodes[1];
-      return element.value;
-    });
+    //guard clause for funny business happening
+    if (!el) {
+      console.log('No element by that id exists');
+      return;
+    }
 
-    return [...this.sanitize(editedIngredients), ...cleanedIngredients];
+    el!.style.display = 'none';
+
+    //remove the element from the list
+    this.instructions.removeAt(i);
   }
 
-  sanitize(input: string[]): string[] {
-    const cleanedArr = input
-      .filter((s: string) => {
+  removeNote(i: number) {
+    //cast to HTMLInputElement for access to value
+    const el = <HTMLInputElement>(
+      document.getElementById(`note-${i}`)?.closest('.notesList')
+    );
+
+    //guard clause for funny business happening
+    if (!el) {
+      console.log('No element by that id exists');
+      return;
+    }
+
+    el!.style.display = 'none';
+
+    //remove the element from the list
+    this.notes.removeAt(i);
+  }
+
+  removeTag(i: number) {
+    //cast to HTMLInputElement for access to value
+    const el = <HTMLInputElement>(
+      document.getElementById(`tag-${i}`)?.closest('.tagsList')
+    );
+
+    //guard clause for funny business happening
+    if (!el) {
+      console.log('No element by that id exists');
+      return;
+    }
+
+    el!.style.display = 'none';
+
+    //remove the element from the list
+    this.tags.removeAt(i);
+  }
+
+  sanitize(input: string[], withCaps: boolean): string[] {
+    let cleanedArr;
+
+    if (!withCaps) {
+      cleanedArr = input.filter((s: string) => {
         return s.length > 0;
-      })
-      .map((s: string) => {
-        return s.toLowerCase();
       });
+    } else {
+      cleanedArr = input
+        .filter((s: string) => {
+          return s.length > 0;
+        })
+        .map((s: string) => {
+          let separateWords = s.toLowerCase().split(' ');
+          let capsWords = separateWords.map((word) => {
+            return word.charAt(0).toUpperCase() + word.substring(1);
+          });
+
+          return capsWords.join(' ');
+        });
+    }
 
     return cleanedArr;
   }
 
   handleSubmit() {
-    const finalIngredients = this.getFinalIngredients('ingredients');
-    console.log(finalIngredients);
+    const finalIngredients = this.sanitize(
+      this.recipeForm.get('ingredients')?.value,
+      true
+    );
+    const finalInstructions = this.sanitize(
+      this.recipeForm.get('instructions')?.value,
+      false
+    );
+    const finalNotes = this.sanitize(
+      this.recipeForm.get('notes')?.value,
+      false
+    );
+    //add primary tag to front, and sanitize it. Add rest of tags to the end
+    const finalTags = [
+      ...this.sanitize([this.recipeForm.get('primaryTag')?.value], true),
+      ...this.sanitize(this.recipeForm.get('tags')?.value, true),
+    ];
+
+    //set the recipe to be sent
+    const updatedRecipe = {
+      title: this.recipeForm.get('title')?.value,
+      serves: <number>this.recipeForm.get('serves')?.value,
+      time: <number>this.recipeForm.get('time')?.value,
+      primaryTag: this.recipeForm.get('primaryTag')?.value,
+      tags: finalTags,
+      imageSrc: this.checkEmptyImage(), //call to check if image src is empty
+      favorite: this.favorite,
+      instructions: finalInstructions,
+      ingredients: finalIngredients,
+      notes: finalNotes,
+    };
+
+    console.log(updatedRecipe);
+
+    //request to add the recipe
+    // this.recipeService.updateRecipe(updatedRecipe).subscribe((data) => {
+    //   console.log(data);
+    // });
   }
 }

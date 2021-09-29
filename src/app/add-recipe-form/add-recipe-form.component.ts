@@ -87,7 +87,12 @@ export class AddRecipeFormComponent {
         return s.length > 0;
       })
       .map((s: string) => {
-        return s.toLowerCase();
+        let separateWords = s.toLowerCase().split(' ');
+        let capsWords = separateWords.map((word) => {
+          return word.charAt(0).toUpperCase() + word.substring(1);
+        });
+
+        return capsWords.join(' ');
       });
 
     return cleanedArr;

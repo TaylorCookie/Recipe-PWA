@@ -1,7 +1,26 @@
 <form [formGroup]="recipeForm" (ngSubmit)="handleSubmit()">
   <div class="container editor_container">
     <div class="edit_div">
-      <h3>Edit or Delete Current Info</h3>
+      <div class="heading_container">
+        <h3>Edit</h3>
+        <div class="button_row">
+          <button
+            (click)="updateFavorite($event, recipe!.id, recipe!)"
+            class="btn-floating btn_base"
+          >
+            <i class="material-icons" [class.favorite_btn]="recipe?.favorite"
+              >favorite</i
+            >
+          </button>
+          <button
+            (click)="deleteRecipe($event, recipe!.id, recipe!)"
+            class="btn-floating btn_base delete_forever_btn"
+          >
+            <i class="material-icons">delete_forever</i>
+          </button>
+        </div>
+      </div>
+
       <div class="input-field">
         <label for="title">Title: </label>
         <input id="title" type="text" formControlName="title" required />
@@ -15,7 +34,155 @@
         <input id="time" type="text" formControlName="time" required />
       </div>
       <div class="input-field">
-        <label for="primaryTag">Primary Tag: </label>
+        <label for="imageSrc">Image URL: </label>
+        <input id="imageSrc" type="text" formControlName="imageSrc" />
+      </div>
+
+      <div class="arr_box">
+        <h4>
+          Ingredients
+          <span class="tooltip_span"
+            ><i
+              class="material-icons"
+              (mouseenter)="helpHover('tooltip_ing')"
+              (mouseleave)="helpHover('tooltip_ing')"
+              (click)="helpClick('tooltip_ing')"
+              >help_outline</i
+            ></span
+          >
+        </h4>
+        <h5 class="tooltip hidden tooltip_ing">
+          Edit the current ingredients by typing in each field or delete one by
+          pressing the delete button. How they are displayed here is how they
+          will be saved once the form is submitted.
+        </h5>
+
+        <div class="input_box" *ngIf="ingredients.length === 0">
+          No Current Ingredients to Show
+        </div>
+
+        <div
+          class="input_box ingredientsList"
+          *ngFor="
+            let ing of recipeForm.get('ingredients').controls;
+            let i = index
+          "
+          formArrayName="ingredients"
+        >
+          <label for="ing-{{ i }}"></label>
+          <input
+            [formControlName]="i"
+            class="input_line"
+            type="text"
+            id="ing-{{ i }}"
+            value="{{ ing }}"
+            placeholder="1 1/2 cup flour, 1 pinch salt"
+          />
+
+          <button class="delete_btn btn" (click)="removeIngredient(i)">
+            Delete
+          </button>
+        </div>
+        <button class="add_btn btn" (click)="addIngredients($event)">
+          + Add a new ingredient
+        </button>
+      </div>
+
+      <div class="arr_box">
+        <h4>
+          Instructions
+          <span class="tooltip_span"
+            ><i
+              class="material-icons"
+              (mouseenter)="helpHover('tooltip_ins')"
+              (mouseleave)="helpHover('tooltip_ins')"
+              (click)="helpClick('tooltip_ins')"
+              >help_outline</i
+            ></span
+          >
+        </h4>
+        <h5 class="tooltip tooltip_ins hidden">
+          Edit the current instructions by typing in each field or delete one by
+          pressing the delete button. How they are displayed here is how they
+          will be saved once the form is submitted.
+        </h5>
+
+        <div class="input_box" *ngIf="instructions.length === 0">
+          No Current Instructions to Show
+        </div>
+
+        <div
+          class="instructionsList"
+          *ngFor="
+            let ins of recipeForm.get('instructions').controls;
+            let i = index
+          "
+          formArrayName="instructions"
+        >
+          <label for="ins-{{ i }}"></label>
+          <textarea
+            [formControlName]="i"
+            type="textarea"
+            id="ins-{{ i }}"
+            value="{{ ins }}"
+          ></textarea>
+
+          <button class="delete_btn btn" (click)="removeInstruction(i)">
+            Delete
+          </button>
+        </div>
+        <button class="add_btn btn" (click)="addInstructions($event)">
+          + Add a new instruction
+        </button>
+      </div>
+
+      <div class="arr_box">
+        <h4>
+          Notes
+          <span class="tooltip_span"
+            ><i
+              class="material-icons"
+              (mouseenter)="helpHover('tooltip_note')"
+              (mouseleave)="helpHover('tooltip_note')"
+              (click)="helpClick('tooltip_note')"
+              >help_outline</i
+            ></span
+          >
+        </h4>
+        <h5 class="tooltip tooltip_note hidden">
+          Edit the current notes by typing in each field or delete one by
+          pressing the delete button. How they are displayed here is how they
+          will be saved once the form is submitted.
+        </h5>
+
+        <div class="input_box" *ngIf="notes.length === 0">
+          No Current Notes to Show
+        </div>
+
+        <div
+          class="notesList"
+          *ngFor="let note of recipeForm.get('notes').controls; let i = index"
+          formArrayName="notes"
+        >
+          <label for="note-{{ i }}"></label>
+          <textarea
+            [formControlName]="i"
+            type="textarea"
+            id="note-{{ i }}"
+            value="{{ note }}"
+          ></textarea>
+
+          <button class="delete_btn btn" (click)="removeNote(i)">Delete</button>
+        </div>
+        <button class="add_btn btn" (click)="addNotes($event)">
+          + Add a new note
+        </button>
+      </div>
+
+      <div class="arr_box">
+        <h4>Primary Tag</h4>
+
+        <label for="primaryTag"></label>
         <input
           id="primaryTag"
           type="text"
@@ -23,109 +190,55 @@
           required
         />
       </div>
-      <div class="input-field">
-        <label for="imageSrc">Image URL: </label>
-        <input id="imageSrc" type="text" formControlName="imageSrc" />
-      </div>
-      <div class="input-field">
-        <label for="favorite">Favorite (true, false): </label>
-        <input id="favorite" type="text" formControlName="favorite" />
-      </div>
 
-      <h4>Current Ingredients</h4>
-      <h5 class="tooltip">
-        Edit the current ingredients by typing in each field or delete one by
-        pressing the delete button. How they are displayed here is how they will
-        be saved once the form is submitted.
-      </h5>
+      <div class="arr_box">
+        <h4>
+          Additional Tags
+          <span class="tooltip_span"
+            ><i
+              class="material-icons"
+              (mouseenter)="helpHover('tooltip_tag')"
+              (mouseleave)="helpHover('tooltip_tag')"
+              (click)="helpClick('tooltip_tag')"
+              >help_outline</i
+            ></span
+          >
+        </h4>
+        <h5 class="tooltip hidden tooltip_tag">
+          The primary tag will be added to the rest of the tags at the end. Edit
+          the current tags by typing in each field or delete one by pressing the
+          delete button. How they are displayed here is how they will be saved
+          once the form is submitted.
+        </h5>
 
-      <div class="input_box" *ngIf="currentIngredients.length === 0">
-        No Current Ingredients to show
-      </div>
+        <div class="input_box" *ngIf="ingredients.length === 0">
+          No Current Tags to Show
+        </div>
 
-      <div
-        class="input_box ingredientsList"
-        *ngFor="let ing of currentIngredients; let i = index"
-      >
-        <label for="ing-{{ i }}"></label>
-        <input
-          class="input_line"
-          type="text"
-          id="ing-{{ i }}"
-          value="{{ ing }}"
-        />
-
-        <button class="delete_btn btn" (click)="removeIngredient(i)">
-          Delete
-        </button>
-      </div>
-    </div>
-
-    <div formArrayName="ingredients" class="ingredients_container">
-      <h4>Add Ingredients:</h4>
-      <div *ngFor="let ingredient of ingredients.controls; let i = index">
-        <div class="input-field">
-          <label for="ingredient-{{ i }}"></label>
+        <div
+          class="input_box tagsList"
+          *ngFor="let tag of recipeForm.get('tags').controls; let i = index"
+          formArrayName="tags"
+        >
+          <label for="tag-{{ i }}"></label>
           <input
-            id="ingredient-{{ i }}"
+            [formControlName]="i"
+            class="input_line"
             type="text"
-            [formControlName]="i"
-            placeholder="1 1/2 cup flour"
+            id="tag-{{ i }}"
+            value="{{ tag }}"
+            placeholder="vegetarian, quick, salad, dinner"
           />
-        </div>
-      </div>
-      <button (click)="addIngredients($event)">+ Add another ingredient</button>
-    </div>
 
-    <div class="add_div">
-      <h3>Add Additional Info</h3>
-
-      <div formArrayName="instructions" class="instructions_container">
-        <h4>Add Instructions:</h4>
-        <div *ngFor="let instruction of instructions.controls; let i = index">
-          <label for="instruction-{{ i }}"></label>
-          <textarea
-            class="instruction_textbox"
-            id="instruction-{{ i }}"
-            type="textarea"
-            [formControlName]="i"
-          ></textarea>
+          <button class="delete_btn btn" (click)="removeTag(i)">Delete</button>
         </div>
-        <button (click)="addInstructions($event)">
-          + Add another instruction
+        <button class="add_btn btn" (click)="addTags($event)">
+          + Add a new tag
         </button>
       </div>
-
-      <div formArrayName="notes" class="instructions_container">
-        <h4>Add Notes:</h4>
-        <div *ngFor="let note of notes.controls; let i = index">
-          <label for="note-{{ i }}"></label>
-          <textarea
-            class="instruction_textbox"
-            id="note-{{ i }}"
-            type="textarea"
-            [formControlName]="i"
-          ></textarea>
-        </div>
-        <button (click)="addNotes($event)">+ Add another note</button>
-      </div>
-
-      <div formArrayName="tags">
-        <h4>Add Tags:</h4>
-        <div *ngFor="let tag of tags.controls; let i = index">
-          <div class="input-field">
-            <label for="tag-{{ i }}"></label>
-            <input
-              id="tag-{{ i }}"
-              type="text"
-              [formControlName]="i"
-              placeholder="vegetarian, quick, salad, dinner"
-            />
-          </div>
-        </div>
-        <button (click)="addTags($event)">+ Add another tag</button>
-      </div>
     </div>
-    <button type="submit">Submit</button>
+    <!--End of container div-->
+
+    <button class="btn submit_btn" type="submit">Submit</button>
   </div>
 </form>

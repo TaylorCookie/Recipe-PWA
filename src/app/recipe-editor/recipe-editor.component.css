@@ -1,23 +1,62 @@
+h3 {
+  margin: 0;
+}
+
+textarea {
+  height: 15rem;
+}
+
 .editor_container {
+  margin-top: 10px;
   margin-bottom: 100px;
+  max-width: 600px;
 }
 
-/* .edit_div {
-  background-color: lightblue;
+.heading_container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 75px;
 }
 
-.add_div {
-  background-color: lightgreen;
-} */
+.btn_base {
+  background-color: #b3b3b3;
+}
+
+.favorite_btn {
+  background-color: #ff625e;
+}
+
+.delete_forever_btn {
+  background-color: rgb(66, 66, 66);
+  margin-left: 10px;
+}
+
+.delete_btn {
+  background-color: red;
+}
+
+.add_btn {
+  background-color: green;
+}
+
+.submit_btn {
+  margin-top: 10px;
+}
 
 .input_box {
   display: flex;
 }
 
-.delete_btn {
+.tooltip_span {
+  cursor: help;
 }
 
 .tooltip {
   color: darkgrey;
   font-size: smaller;
+}
+
+.hidden {
+  display: none;
 }
