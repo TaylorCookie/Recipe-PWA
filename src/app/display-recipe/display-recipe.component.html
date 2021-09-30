@@ -1,16 +1,13 @@
 <div class="recipe_container container">
-  <div class="summary_container" style.backgroundColor="{{ backgroundColor }}">
-    <div class="header">
-      <button
-        class="btn-floating btn_base favorite"
-        [class.favorite_btn]="recipe?.favorite"
-        (click)="updateFavorite($event, recipe!.id, recipe!)"
-      >
-        <i class="material-icons">favorite</i>
-      </button>
-      <h3 class="title">{{ recipe?.title }}</h3>
-      <a href="/recipe-edit/{{ recipe?.id }}">
-        <button class="btn-floating btn_base edit">
+  <div
+    class="summary_container container-fluid"
+    style.backgroundColor="{{ backgroundColor }}"
+  >
+    <div class="header row">
+      <h3 class="title col s9">{{ recipe?.title }}</h3>
+
+      <a class="col s3" href="/recipe-edit/{{ recipe?.id }}">
+        <button class="btn-floating btn_base edit_btn">
           <i class="material-icons">edit</i>
         </button></a
       >

@@ -2,7 +2,7 @@
   <div class="container editor_container">
     <div class="edit_div">
       <div class="heading_container">
-        <h3>Edit</h3>
+        <h3>Edit Form</h3>
         <div class="button_row">
           <button
             (click)="updateFavorite($event, recipe!.id, recipe!)"
@@ -84,7 +84,7 @@
           </button>
         </div>
         <button class="add_btn btn" (click)="addIngredients($event)">
-          + Add a new ingredient
+          Add a new ingredient
         </button>
       </div>
 
@@ -112,7 +112,7 @@
         </div>
 
         <div
-          class="instructionsList"
+          class="instructionsList ins_note_container"
           *ngFor="
             let ins of recipeForm.get('instructions').controls;
             let i = index
@@ -127,12 +127,15 @@
             value="{{ ins }}"
           ></textarea>
 
-          <button class="delete_btn btn" (click)="removeInstruction(i)">
+          <button
+            class="delete_btn_ins_note btn"
+            (click)="removeInstruction(i)"
+          >
             Delete
           </button>
         </div>
         <button class="add_btn btn" (click)="addInstructions($event)">
-          + Add a new instruction
+          Add a new instruction
         </button>
       </div>
 
@@ -160,7 +163,7 @@
         </div>
 
         <div
-          class="notesList"
+          class="notesList ins_note_container"
           *ngFor="let note of recipeForm.get('notes').controls; let i = index"
           formArrayName="notes"
         >
@@ -172,10 +175,12 @@
             value="{{ note }}"
           ></textarea>
 
-          <button class="delete_btn btn" (click)="removeNote(i)">Delete</button>
+          <button class="delete_btn_ins_note btn" (click)="removeNote(i)">
+            Delete
+          </button>
         </div>
         <button class="add_btn btn" (click)="addNotes($event)">
-          + Add a new note
+          Add a new note
         </button>
       </div>
 
@@ -233,12 +238,12 @@
           <button class="delete_btn btn" (click)="removeTag(i)">Delete</button>
         </div>
         <button class="add_btn btn" (click)="addTags($event)">
-          + Add a new tag
+          Add a new tag
         </button>
       </div>
     </div>
     <!--End of container div-->
 
-    <button class="btn submit_btn" type="submit">Submit</button>
+    <button class="btn submit_btn" type="submit">Submit Updated Form</button>
   </div>
 </form>

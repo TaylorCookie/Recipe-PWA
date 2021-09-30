@@ -32,12 +32,4 @@ export class DisplayRecipeComponent implements OnInit {
       this.timeFormatted = this.recipeService.convertTime(recipe.time);
     });
   }
-
-  updateFavorite(event: any, id: number, recipe: Recipe): void {
-    // this.recipeService.favoriteRecipe(recipe, id).subscribe((res) => {
-    //   console.log(res);
-    // });
-
-    event.target.classList.toggle('favorite_btn');
-  }
 }

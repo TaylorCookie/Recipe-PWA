@@ -170,6 +170,10 @@ export class RecipeEditorComponent implements OnInit {
   }
 
   removeIngredient(i: number) {
+    //guard clause to prevent accidently deleting
+    const res = window.confirm('Are you sure you want to delete?');
+    if (!res) return;
+
     //cast to HTMLInputElement for access to value
     const el = <HTMLInputElement>(
       document.getElementById(`ing-${i}`)?.closest('.ingredientsList')
@@ -188,6 +192,10 @@ export class RecipeEditorComponent implements OnInit {
   }
 
   removeInstruction(i: number) {
+    //guard clause to prevent accidently deleting
+    const res = window.confirm('Are you sure you want to delete?');
+    if (!res) return;
+
     //cast to HTMLInputElement for access to value
     const el = <HTMLInputElement>(
       document.getElementById(`ins-${i}`)?.closest('.instructionsList')
@@ -206,6 +214,10 @@ export class RecipeEditorComponent implements OnInit {
   }
 
   removeNote(i: number) {
+    //guard clause to prevent accidently deleting
+    const res = window.confirm('Are you sure you want to delete?');
+    if (!res) return;
+
     //cast to HTMLInputElement for access to value
     const el = <HTMLInputElement>(
       document.getElementById(`note-${i}`)?.closest('.notesList')
@@ -224,6 +236,10 @@ export class RecipeEditorComponent implements OnInit {
   }
 
   removeTag(i: number) {
+    //guard clause to prevent accidently deleting
+    const res = window.confirm('Are you sure you want to delete?');
+    if (!res) return;
+
     //cast to HTMLInputElement for access to value
     const el = <HTMLInputElement>(
       document.getElementById(`tag-${i}`)?.closest('.tagsList')

@@ -19,6 +19,14 @@ textarea {
   margin-bottom: 75px;
 }
 
+.input_box {
+  display: flex;
+}
+
+.ins_note_container {
+  margin-bottom: 1rem;
+}
+
 .btn_base {
   background-color: #b3b3b3;
 }
@@ -33,19 +41,27 @@ textarea {
 }
 
 .delete_btn {
-  background-color: red;
+  background-color: hsl(0, 100%, 70%);
+  font-weight: bold;
+}
+
+.delete_btn_ins_note {
+  background-color: hsl(0, 100%, 70%);
+  font-weight: bold;
+  width: 100%;
 }
 
 .add_btn {
-  background-color: green;
+  background-color: hsl(115, 50%, 50%);
+  font-weight: bold;
+  width: 100%;
 }
 
 .submit_btn {
-  margin-top: 10px;
-}
-
-.input_box {
-  display: flex;
+  background-color: hsl(204, 70%, 50%);
+  margin-top: 30px;
+  font-weight: bold;
+  width: 100%;
 }
 
 .tooltip_span {
