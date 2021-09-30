@@ -185,7 +185,23 @@
       </div>
 
       <div class="arr_box">
-        <h4>Primary Tag</h4>
+        <h4>
+          Primary Tag
+          <span class="tooltip_span"
+            ><i
+              class="material-icons"
+              (mouseenter)="helpHover('tooltip_pri_tag')"
+              (mouseleave)="helpHover('tooltip_pri_tag')"
+              (click)="helpClick('tooltip_pri_tag')"
+              >help_outline</i
+            ></span
+          >
+        </h4>
+        <h5 class="tooltip hidden tooltip_pri_tag">
+          Tags allow for searching for recipes by category. The primary tag is
+          the main tag for your recipe. It will be the one displayed on the
+          recipe summary card.
+        </h5>
 
         <label for="primaryTag"></label>
         <input
@@ -210,10 +226,11 @@
           >
         </h4>
         <h5 class="tooltip hidden tooltip_tag">
-          The primary tag will be added to the rest of the tags at the end. Edit
-          the current tags by typing in each field or delete one by pressing the
-          delete button. How they are displayed here is how they will be saved
-          once the form is submitted.
+          Tags allow for searching for recipes by category. The primary tag will
+          be added to the rest of the tags at the end. Edit the current tags by
+          typing in each field or delete one by pressing the delete button. How
+          they are displayed here is how they will be saved once the form is
+          submitted.
         </h5>
 
         <div class="input_box" *ngIf="ingredients.length === 0">
@@ -244,6 +261,6 @@
     </div>
     <!--End of container div-->
 
-    <button class="btn submit_btn" type="submit">Submit Updated Form</button>
+    <button class="btn submit_btn" type="submit">Submit Updated Recipe</button>
   </div>
 </form>

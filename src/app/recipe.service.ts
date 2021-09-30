@@ -37,6 +37,38 @@ export class RecipeService {
 
   favoriteRecipe(recipe: Recipe, id: number): void {}
 
+  searchByCategoryOrRecipeNameOrIngredient(
+    searchTerm: string
+  ): Observable<(Recipe | undefined)[]> {
+    const recipes = RECIPES.filter((recipe) => {
+      //check if recipe contains a tag including the search term
+      if (
+        recipe.tags.some((tag) => {
+          if (tag.toLowerCase().includes(searchTerm)) {
+            return true;
+          }
+          return false;
+        }) ||
+        //or if recipe title includes the search term
+        recipe.title.toLowerCase().includes(searchTerm) 
+        //or if recipe ingredients include the search term
+        || recipe.ingredients.some((ing) => {
+          if (ing.toLowerCase().includes(searchTerm)) {
+            return true;
+          }
+          return false;
+        })
+      ) {
+        //if true, return the recipe
+        return recipe;
+      }
+      //else, return nothing
+      return false;
+    });
+
+    return of(recipes);
+  }
+
   // getRecipes(): Observable<Recipe[]> {
   //   return this.http.get<Recipe[]>(`${this.configUrl}recipes`);
   // }

@@ -4,6 +4,7 @@ h3 {
 
 textarea {
   height: 15rem;
+  border-radius: 10px;
 }
 
 .editor_container {
@@ -25,6 +26,10 @@ textarea {
 
 .ins_note_container {
   margin-bottom: 1rem;
+}
+
+.btn {
+  border-radius: 10px;
 }
 
 .btn_base {

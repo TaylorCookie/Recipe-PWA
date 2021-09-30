@@ -1,0 +1,53 @@
+<div class="container wrapper">
+  <form>
+    <div class="searchbar">
+      <input
+        type="text"
+        placeholder="Search here..."
+        [formControl]="searchQuery"
+      />
+
+      <button (click)="submitSearch($event)" class="btn search_btn">
+        <i class="material-icons search_icon">search</i>
+      </button>
+    </div>
+  </form>
+
+  <div *ngIf="!searchClicked">
+    <p class="nothing_found_msg">
+      This search looks for anything in the recipe's title, tags, or
+      ingredients.
+    </p>
+  </div>
+
+  <div class="cards_container" *ngIf="loading">
+    <div
+      *ngFor="let card of loadingCards; let i = index"
+      class="card_container"
+    >
+      <app-skeleton-loading-cards
+        [herokuWarning]="i === 0"
+      ></app-skeleton-loading-cards>
+    </div>
+  </div>
+
+  <div
+    class="nothing_found_container"
+    *ngIf="recipes?.length === 0 && !loading"
+  >
+    <h5 class="nothing_found_heading">
+      No Recipes Found! Please try another search term.
+    </h5>
+
+    <p class="nothing_found_msg">
+      This search looks for anything in the recipe's title, tags, or
+      ingredients.
+    </p>
+  </div>
+
+  <div class="cards_container" *ngIf="recipes && !loading">
+    <div *ngFor="let card of recipes" class="card_container">
+      <app-card-details [recipe]="card"></app-card-details>
+    </div>
+  </div>
+</div>
