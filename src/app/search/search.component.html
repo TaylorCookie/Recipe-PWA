@@ -14,13 +14,104 @@
   </form>
 
   <div *ngIf="!searchClicked">
+    <p class="nothing_found_msg">Test Message</p>
+  </div>
+
+  <div class="buttons_row" (click)="btnRowClickHandler($event)">
+    <button
+      class="btn selector_btns by_title_btn btn_active"
+      data-name="title_btn"
+    >
+      Results By Title
+    </button>
+
+    <button class="btn selector_btns by_tag_btn" data-name="tag_btn">
+      Results By Tags
+    </button>
+
+    <button
+      class="btn selector_btns by_ingredient_btn"
+      data-name="ingredient_btn"
+    >
+      Results By Ingredients
+    </button>
+  </div>
+
+  <div
+    class="cards_container"
+    *ngIf="recipesByTitle && !loadingByTitle && byTitleClicked"
+  >
+    <div *ngFor="let card of recipesByTitle" class="card_container">
+      <app-card-details [recipe]="card"></app-card-details>
+    </div>
+  </div>
+
+  <div
+    class="cards_container"
+    *ngIf="recipesByTag && !loadingByTag && byTagClicked"
+  >
+    <div *ngFor="let card of recipesByTag" class="card_container">
+      <app-card-details [recipe]="card"></app-card-details>
+    </div>
+  </div>
+
+  <div
+    class="cards_container"
+    *ngIf="recipesByIngredient && !loadingByIngredient && byIngredientClicked"
+  >
+    <div *ngFor="let card of recipesByIngredient" class="card_container">
+      <app-card-details [recipe]="card"></app-card-details>
+    </div>
+  </div>
+
+  <div
+    class="nothing_found_container"
+    *ngIf="recipesByTitle?.length === 0 && !loadingByTitle && byTitleClicked"
+  >
+    <h5 class="nothing_found_heading">
+      No Recipes Found by Title! Please try another search term.
+    </h5>
+
     <p class="nothing_found_msg">
-      This search looks for anything in the recipe's title, tags, or
-      ingredients.
+      This search looks for anything in the recipe's title.
     </p>
   </div>
 
-  <div class="cards_container" *ngIf="loading">
+  <div
+    class="nothing_found_container"
+    *ngIf="recipesByTag?.length === 0 && !loadingByTag && byTagClicked"
+  >
+    <h5 class="nothing_found_heading">
+      No Recipes Found by Tag! Please try another search term.
+    </h5>
+
+    <p class="nothing_found_msg">
+      This search looks for anything in the recipe's tags.
+    </p>
+  </div>
+
+  <div
+    class="nothing_found_container"
+    *ngIf="
+      recipesByIngredient?.length === 0 &&
+      !loadingByIngredient &&
+      byIngredientClicked
+    "
+  >
+    <h5 class="nothing_found_heading">
+      No Recipes Found by Ingredient! Please try another search term.
+    </h5>
+
+    <p class="nothing_found_msg">
+      This search looks for anything in the recipe's ingredient list.
+    </p>
+  </div>
+
+  <!-- Show if any of the requests is still pending -->
+  <div
+    class="cards_container"
+    *ngIf="loadingByTitle || loadingByTag || loadingByIngredient"
+  >
     <div
       *ngFor="let card of loadingCards; let i = index"
       class="card_container"
@@ -28,26 +119,6 @@
       <app-skeleton-loading-cards
         [herokuWarning]="i === 0"
       ></app-skeleton-loading-cards>
-    </div>
-  </div>
-
-  <div
-    class="nothing_found_container"
-    *ngIf="recipes?.length === 0 && !loading"
-  >
-    <h5 class="nothing_found_heading">
-      No Recipes Found! Please try another search term.
-    </h5>
-
-    <p class="nothing_found_msg">
-      This search looks for anything in the recipe's title, tags, or
-      ingredients.
-    </p>
-  </div>
-
-  <div class="cards_container" *ngIf="recipes && !loading">
-    <div *ngFor="let card of recipes" class="card_container">
-      <app-card-details [recipe]="card"></app-card-details>
     </div>
   </div>
 </div>

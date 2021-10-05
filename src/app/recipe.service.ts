@@ -37,22 +37,46 @@ export class RecipeService {
 
   favoriteRecipe(recipe: Recipe, id: number): void {}
 
-  searchByCategoryOrRecipeNameOrIngredient(
-    searchTerm: string
-  ): Observable<(Recipe | undefined)[]> {
+  searchByTitle(searchTerm: string): Observable<(Recipe | undefined)[]> {
     const recipes = RECIPES.filter((recipe) => {
-      //check if recipe contains a tag including the search term
+      //check if recipe title includes the search term
+      if (recipe.title.toLowerCase().includes(searchTerm)) {
+        //if true, return the recipe
+        return recipe;
+      }
+      //else, return nothing
+      return false;
+    });
+
+    return of(recipes);
+  }
+
+  searchByTag(searchTerm: string): Observable<(Recipe | undefined)[]> {
+    const recipes = RECIPES.filter((recipe) => {
+      //check if recipe tags include the search term
       if (
         recipe.tags.some((tag) => {
           if (tag.toLowerCase().includes(searchTerm)) {
             return true;
           }
           return false;
-        }) ||
-        //or if recipe title includes the search term
-        recipe.title.toLowerCase().includes(searchTerm) 
-        //or if recipe ingredients include the search term
-        || recipe.ingredients.some((ing) => {
+        })
+      ) {
+        //if true, return the recipe
+        return recipe;
+      }
+      //else, return nothing
+      return false;
+    });
+
+    return of(recipes);
+  }
+
+  searchByIngredient(searchTerm: string): Observable<(Recipe | undefined)[]> {
+    const recipes = RECIPES.filter((recipe) => {
+      //check if recipe tags include the search term
+      if (
+        recipe.ingredients.some((ing) => {
           if (ing.toLowerCase().includes(searchTerm)) {
             return true;
           }
@@ -100,6 +124,20 @@ export class RecipeService {
   //     `${this.configUrl}update-recipe/${id}`,
   //     recipe
   //   );
+  // }
+
+  // searchByTitle(searchTerm: string): Observable<Recipe[]> {
+  //   return this.http.get<Recipe[]>(
+  //     `${this.configUrl}recipe/by-title/${searchTerm}`
+  //   );
+  // }
+
+  // searchByTag(searchTerm: string): Observable<Recipe[]> {
+  //   return this.http.get<Recipe[]>(`${this.configUrl}recipe/by-tags/${searchTerm}`);
+  // }
+
+  // searchByIngredient(searchTerm: string): Observable<Recipe[]> {
+  //   return this.http.get<Recipe[]>(`${this.configUrl}recipe/by-ingredients/${searchTerm}`);
   // }
 
   /////////////////////////////////////////

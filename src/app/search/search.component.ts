@@ -10,30 +10,143 @@ import { RecipeService } from '../recipe.service';
 })
 export class SearchComponent implements OnInit {
   searchQuery = new FormControl('');
-  recipes?: (Recipe | undefined)[];
+
+  recipesByTitle?: (Recipe | undefined)[];
+  recipesByTag?: (Recipe | undefined)[];
+  recipesByIngredient?: (Recipe | undefined)[];
+
   loadingCards: any[] = Array(12).fill(null);
-  loading: boolean = false;
+
+  loadingByTitle: boolean = false;
+  loadingByTag: boolean = false;
+  loadingByIngredient: boolean = false;
+
   searchClicked: boolean = false;
+  byTitleClicked: boolean = true;
+  byTagClicked: boolean = false;
+  byIngredientClicked: boolean = false;
 
   constructor(private recipeService: RecipeService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.recipeService
+      .searchByTitle(this.searchQuery.value.toLowerCase())
+      .subscribe((recipes: (Recipe | undefined)[]) => {
+        this.recipesByTitle = recipes;
+        this.loadingByTitle = false;
+        console.log('Title:', this.recipesByTitle);
+      });
+
+    this.recipeService
+      .searchByTag(this.searchQuery.value.toLowerCase())
+      .subscribe((recipes: (Recipe | undefined)[]) => {
+        this.recipesByTag = recipes;
+        this.loadingByTag = false;
+        console.log('Tags:', this.recipesByTag);
+      });
+
+    this.recipeService
+      .searchByIngredient(this.searchQuery.value.toLowerCase())
+      .subscribe((recipes: (Recipe | undefined)[]) => {
+        this.recipesByIngredient = recipes;
+        this.loadingByIngredient = false;
+        console.log('Ingredients:', this.recipesByIngredient);
+      });
+  }
 
   submitSearch(event: any) {
     event.preventDefault();
-    this.loading = true;
+    this.loadingByTitle = true;
+    this.loadingByTag = true;
+    this.loadingByIngredient = true;
     this.searchClicked = true;
 
+    setTimeout(() => {
+      this.getRecipes();
+    }, 3000);
+
+    // this.recipeService
+    //   .searchByCategoryOrRecipeNameOrIngredient(
+    //     this.searchQuery.value.toLowerCase()
+    //   )
+    //   .subscribe((recipes: (Recipe | undefined)[]) => {
+    //     setTimeout(() => {
+    //       this.recipes = recipes;
+    //       this.loading = false;
+    //       console.log(this.recipes);
+    //     }, 3000);
+    //   });
+  }
+
+  getRecipes() {
     this.recipeService
-      .searchByCategoryOrRecipeNameOrIngredient(
-        this.searchQuery.value.toLowerCase()
-      )
+      .searchByTitle(this.searchQuery.value.toLowerCase())
       .subscribe((recipes: (Recipe | undefined)[]) => {
-        setTimeout(() => {
-          this.recipes = recipes;
-          this.loading = false;
-          console.log(this.recipes);
-        }, 3000);
+        this.recipesByTitle = recipes;
+        this.loadingByTitle = false;
+        console.log('Title:', this.recipesByTitle);
       });
+
+    this.recipeService
+      .searchByTag(this.searchQuery.value.toLowerCase())
+      .subscribe((recipes: (Recipe | undefined)[]) => {
+        this.recipesByTag = recipes;
+        this.loadingByTag = false;
+        console.log('Tags:', this.recipesByTag);
+      });
+
+    this.recipeService
+      .searchByIngredient(this.searchQuery.value.toLowerCase())
+      .subscribe((recipes: (Recipe | undefined)[]) => {
+        this.recipesByIngredient = recipes;
+        this.loadingByIngredient = false;
+        console.log('Ingredients:', this.recipesByIngredient);
+      });
+  }
+
+  btnRowClickHandler(event: any) {
+    event.preventDefault();
+
+    //guard clause
+    if (!event.target.classList.contains('btn')) return;
+
+    const btns = document.querySelectorAll('.selector_btns');
+
+    btns.forEach((btn) => {
+      btn.classList.remove('btn_active');
+
+      if (btn === event.target) {
+        btn.classList.add('btn_active');
+      }
+    });
+
+    //depending on dataset, set active clicked
+    switch (event.target.dataset.name) {
+      case 'title_btn': {
+        this.byTagClicked = false;
+        this.byIngredientClicked = false;
+        this.byTitleClicked = true;
+        break;
+      }
+
+      case 'tag_btn': {
+        this.byIngredientClicked = false;
+        this.byTitleClicked = false;
+        this.byTagClicked = true;
+        break;
+      }
+
+      case 'ingredient_btn': {
+        this.byTitleClicked = false;
+        this.byTagClicked = false;
+        this.byIngredientClicked = true;
+        break;
+      }
+
+      default: {
+        console.log('The delegated event handler is broken');
+        break;
+      }
+    }
   }
 }

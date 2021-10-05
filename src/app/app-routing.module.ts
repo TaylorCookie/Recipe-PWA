@@ -12,6 +12,7 @@ const routes: Routes = [
   { path: 'search', component: SearchComponent },
   { path: 'recipe/:id', component: DisplayRecipeComponent },
   { path: 'recipe-edit/:id', component: RecipeEditorComponent },
+
   { path: '', component: CardsComponent },
 ];
 

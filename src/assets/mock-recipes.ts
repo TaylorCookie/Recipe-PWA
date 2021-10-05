@@ -28,7 +28,7 @@ export const RECIPES: Recipe[] = [
   },
   {
     id: 1,
-    title: 'Spaghetti',
+    title: 'Carbonara',
     time: 120,
     primaryTag: 'Vegetarian',
     serves: 8,
@@ -53,7 +53,7 @@ export const RECIPES: Recipe[] = [
   },
   {
     id: 1,
-    title: 'Spaghetti',
+    title: 'Pasta',
     time: 120,
     primaryTag: 'Vegetarian',
     serves: 8,
@@ -78,7 +78,7 @@ export const RECIPES: Recipe[] = [
   },
   {
     id: 1,
-    title: 'Spaghetti',
+    title: 'Title here',
     time: 120,
     primaryTag: 'Vegetarian',
     serves: 8,
