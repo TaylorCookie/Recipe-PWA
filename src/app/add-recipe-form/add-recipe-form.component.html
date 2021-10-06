@@ -51,7 +51,9 @@
           />
         </div>
       </div>
-      <button (click)="addIngredients($event)">+ Add another ingredient</button>
+      <button class="btn" (click)="addIngredients($event)">
+        Add another ingredient
+      </button>
     </div>
 
     <div formArrayName="instructions" class="instructions_container">
@@ -65,8 +67,8 @@
           [formControlName]="i"
         ></textarea>
       </div>
-      <button (click)="addInstructions($event)">
-        + Add another instruction
+      <button class="btn" (click)="addInstructions($event)">
+        Add another instruction
       </button>
     </div>
 
@@ -81,7 +83,7 @@
           [formControlName]="i"
         ></textarea>
       </div>
-      <button (click)="addNotes($event)">+ Add another note</button>
+      <button class="btn" (click)="addNotes($event)">Add another note</button>
     </div>
 
     <h4>Tags:</h4>
@@ -108,10 +110,10 @@
           />
         </div>
       </div>
-      <button (click)="addTags($event)">+ Add another tag</button>
+      <button class="btn" (click)="addTags($event)">Add another tag</button>
     </div>
 
-    <button type="submit">Submit</button>
+    <button class="btn submit_btn" type="submit">Submit New Recipe</button>
   </form>
 </div>
 

@@ -22,7 +22,7 @@ export class RecipeService {
   }
 
   getRecipeByID(id: number): Observable<Recipe> {
-    return of(RECIPES[0]);
+    return of(RECIPES[2]);
   }
 
   addRecipe(recipe: NewRecipe): Observable<Recipe> {

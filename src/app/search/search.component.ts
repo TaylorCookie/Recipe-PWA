@@ -29,29 +29,27 @@ export class SearchComponent implements OnInit {
   constructor(private recipeService: RecipeService) {}
 
   ngOnInit(): void {
-    this.recipeService
-      .searchByTitle(this.searchQuery.value.toLowerCase())
-      .subscribe((recipes: (Recipe | undefined)[]) => {
-        this.recipesByTitle = recipes;
-        this.loadingByTitle = false;
-        console.log('Title:', this.recipesByTitle);
-      });
-
-    this.recipeService
-      .searchByTag(this.searchQuery.value.toLowerCase())
-      .subscribe((recipes: (Recipe | undefined)[]) => {
-        this.recipesByTag = recipes;
-        this.loadingByTag = false;
-        console.log('Tags:', this.recipesByTag);
-      });
-
-    this.recipeService
-      .searchByIngredient(this.searchQuery.value.toLowerCase())
-      .subscribe((recipes: (Recipe | undefined)[]) => {
-        this.recipesByIngredient = recipes;
-        this.loadingByIngredient = false;
-        console.log('Ingredients:', this.recipesByIngredient);
-      });
+    // this.recipeService
+    //   .searchByTitle(this.searchQuery.value.toLowerCase())
+    //   .subscribe((recipes: (Recipe | undefined)[]) => {
+    //     this.recipesByTitle = recipes;
+    //     this.loadingByTitle = false;
+    //     console.log('Title:', this.recipesByTitle);
+    //   });
+    // this.recipeService
+    //   .searchByTag(this.searchQuery.value.toLowerCase())
+    //   .subscribe((recipes: (Recipe | undefined)[]) => {
+    //     this.recipesByTag = recipes;
+    //     this.loadingByTag = false;
+    //     console.log('Tags:', this.recipesByTag);
+    //   });
+    // this.recipeService
+    //   .searchByIngredient(this.searchQuery.value.toLowerCase())
+    //   .subscribe((recipes: (Recipe | undefined)[]) => {
+    //     this.recipesByIngredient = recipes;
+    //     this.loadingByIngredient = false;
+    //     console.log('Ingredients:', this.recipesByIngredient);
+    //   });
   }
 
   submitSearch(event: any) {
@@ -105,7 +103,7 @@ export class SearchComponent implements OnInit {
   }
 
   btnRowClickHandler(event: any) {
-    event.preventDefault();
+    // event.preventDefault();
 
     //guard clause
     if (!event.target.classList.contains('btn')) return;
@@ -126,6 +124,11 @@ export class SearchComponent implements OnInit {
         this.byTagClicked = false;
         this.byIngredientClicked = false;
         this.byTitleClicked = true;
+
+        this.displayContainer(
+          document.querySelector<HTMLElement>('.results_by_title_container')
+        );
+
         break;
       }
 
@@ -133,6 +136,11 @@ export class SearchComponent implements OnInit {
         this.byIngredientClicked = false;
         this.byTitleClicked = false;
         this.byTagClicked = true;
+
+        this.displayContainer(
+          document.querySelector<HTMLElement>('.results_by_tags_container')
+        );
+
         break;
       }
 
@@ -140,6 +148,13 @@ export class SearchComponent implements OnInit {
         this.byTitleClicked = false;
         this.byTagClicked = false;
         this.byIngredientClicked = true;
+
+        this.displayContainer(
+          document.querySelector<HTMLElement>(
+            '.results_by_ingredients_container'
+          )
+        );
+
         break;
       }
 
@@ -148,5 +163,21 @@ export class SearchComponent implements OnInit {
         break;
       }
     }
+  }
+
+  displayContainer(element: HTMLElement | null) {
+    //guard clause
+    if (!element) {
+      return;
+    }
+
+    const containers =
+      document.querySelectorAll<HTMLElement>('.result_container');
+
+    containers.forEach((el) => {
+      el.classList.add('hidden');
+    });
+
+    element.classList.remove('hidden');
   }
 }

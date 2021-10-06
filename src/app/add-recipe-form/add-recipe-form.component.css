@@ -2,6 +2,19 @@ h4 {
   margin-bottom: 30px;
 }
 
+.btn {
+  background-color: hsl(115, 50%, 50%);
+  font-weight: bold;
+  border-radius: 10px;
+  width: 100%;
+  margin-top: 5px;
+}
+
+.submit_btn {
+  background-color: hsl(204, 70%, 50%);
+  margin-top: 30px;
+}
+
 .recipePage {
   max-width: 600px;
 }

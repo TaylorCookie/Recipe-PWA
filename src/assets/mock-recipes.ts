@@ -27,12 +27,12 @@ export const RECIPES: Recipe[] = [
     ],
   },
   {
-    id: 1,
+    id: 2,
     title: 'Carbonara',
     time: 120,
     primaryTag: 'Vegetarian',
     serves: 8,
-    imageSrc: '../../assets/images/placeholder.png',
+    imageSrc: '../../assets/images/food-1570622.jpg',
     favorite: false,
     tags: ['easy', 'quick', 'big servings'],
     ingredients: [
@@ -52,12 +52,12 @@ export const RECIPES: Recipe[] = [
     ],
   },
   {
-    id: 1,
+    id: 3,
     title: 'Pasta',
     time: 120,
     primaryTag: 'Vegetarian',
     serves: 8,
-    imageSrc: '../../assets/images/placeholder.png',
+    imageSrc: '../../assets/images/japanese-food-1327491.jpg',
     favorite: false,
     tags: ['vegetarian', 'quick', 'big servings'],
     ingredients: [
