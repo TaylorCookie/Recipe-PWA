@@ -1,9 +1,14 @@
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap");
+
 h3 {
   margin: 0;
+  font-family: "Dancing Script", cursive, Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  text-decoration: underline;
 }
 
 textarea {
-  height: 15rem;
+  height: 100px;
   border-radius: 10px;
 }
 

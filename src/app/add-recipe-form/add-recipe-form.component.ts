@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormArray } from '@angular/forms';
-import { Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { NewRecipe } from 'src/assets/interfaces/newRecipe';
 
 import { FileUploadService } from '../file-upload.service';
@@ -18,23 +18,24 @@ export class AddRecipeFormComponent {
   loading: boolean = false;
 
   recipeForm = this.fb.group({
-    title: ['', Validators.required],
-    serves: ['', Validators.required],
-    time: ['', Validators.required],
-    primaryTag: ['', Validators.required],
+    title: [''],
+    serves: [''],
+    time: [''],
+    primaryTag: [''],
     favorite: [false],
     imageSrc: [''],
 
-    tags: this.fb.array([this.fb.control('')], Validators.required),
-    ingredients: this.fb.array([this.fb.control('')], Validators.required),
-    instructions: this.fb.array([this.fb.control('')], Validators.required),
-    notes: this.fb.array([this.fb.control('')], Validators.required),
+    tags: this.fb.array([this.fb.control('')]),
+    ingredients: this.fb.array([this.fb.control('')]),
+    instructions: this.fb.array([this.fb.control('')]),
+    notes: this.fb.array([this.fb.control('')]),
   });
 
   constructor(
     private fb: FormBuilder,
     private fileUploadService: FileUploadService,
-    private recipeService: RecipeService
+    private recipeService: RecipeService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {}
@@ -75,31 +76,43 @@ export class AddRecipeFormComponent {
     this.notes.push(this.fb.control(''));
   }
 
-  onFileSelected(event: any) {
-    console.log(event);
-    this.imageToUpload = event.target.files[0];
-    console.log(this.imageToUpload);
-  }
+  // onFileSelected(event: any) {
+  //   console.log(event);
+  //   this.imageToUpload = event.target.files[0];
+  //   console.log(this.imageToUpload);
+  // }
 
-  sanitize(input: string[]): string[] {
-    const cleanedArr = input
-      .filter((s: string) => {
+  sanitize(input: string[], withCaps: boolean): string[] {
+    let cleanedArr;
+
+    if (!withCaps) {
+      cleanedArr = input.filter((s: string) => {
         return s.length > 0;
-      })
-      .map((s: string) => {
-        let separateWords = s.toLowerCase().split(' ');
-        let capsWords = separateWords.map((word) => {
-          return word.charAt(0).toUpperCase() + word.substring(1);
-        });
-
-        return capsWords.join(' ');
       });
+    } else {
+      cleanedArr = input
+        .filter((s: string) => {
+          return s.length > 0;
+        })
+        .map((s: string) => {
+          return this.capitalize(s);
+        });
+    }
 
     return cleanedArr;
   }
 
+  capitalize(input: string): string {
+    let separateWords = input.toLowerCase().split(' ');
+    let capsWords = separateWords.map((word) => {
+      return word.charAt(0).toUpperCase() + word.substring(1);
+    });
+
+    return capsWords.join(' ');
+  }
+
   checkEmptyImage(): string {
-    if (this.recipeForm.get('imageSrc')?.value) {
+    if (this.recipeForm.get('imageSrc')?.value.trim()) {
       return this.recipeForm.get('imageSrc')?.value;
     }
 
@@ -131,15 +144,20 @@ export class AddRecipeFormComponent {
   formSubmit() {
     //format the different submissions
     const cleanedIngredients = this.sanitize(
-      this.recipeForm.get('ingredients')?.value
+      this.recipeForm.get('ingredients')?.value,
+      true
     );
     const cleanedInstructions = this.sanitize(
-      this.recipeForm.get('instructions')?.value
+      this.recipeForm.get('instructions')?.value,
+      false
     );
-    const cleanedNotes = this.sanitize(this.recipeForm.get('notes')?.value);
+    const cleanedNotes = this.sanitize(
+      this.recipeForm.get('notes')?.value,
+      false
+    );
     const cleanedTags = [
-      this.recipeForm.get('primaryTag')?.value,
-      ...this.sanitize(this.recipeForm.get('tags')?.value),
+      ...this.sanitize([this.recipeForm.get('primaryTag')?.value], true),
+      ...this.sanitize(this.recipeForm.get('tags')?.value, true),
     ];
 
     //set the recipe to be sent
@@ -147,7 +165,7 @@ export class AddRecipeFormComponent {
       title: this.recipeForm.get('title')?.value,
       serves: <number>this.recipeForm.get('serves')?.value,
       time: <number>this.recipeForm.get('time')?.value,
-      primaryTag: this.recipeForm.get('primaryTag')?.value,
+      primaryTag: this.capitalize(this.recipeForm.get('primaryTag')?.value),
       tags: cleanedTags,
       imageSrc: this.checkEmptyImage(), //call to check if image src is empty
       favorite: false,
@@ -156,11 +174,21 @@ export class AddRecipeFormComponent {
       notes: cleanedNotes,
     };
 
-    console.log(this.newRecipe);
-
     //request to add the recipe
     this.recipeService.addRecipe(this.newRecipe).subscribe((data) => {
       console.log(data);
+
+      if (
+        window.confirm(
+          'Recipe Created Successfully! \n\nClick "OK" to view the recipe you just created! \nClick "Cancel" to stay on this page and create another recipe.'
+        )
+      ) {
+        //route back to display this recipe
+        this.router.navigate([`/recipe/${data.id}`]);
+      } else {
+        //reload page
+        location.reload();
+      }
     });
   }
 }

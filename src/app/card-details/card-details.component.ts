@@ -19,9 +19,9 @@ export class CardDetailsComponent implements OnInit {
   }
 
   updateFavorite(event: any, id: number, recipe: Recipe): void {
-    // this.recipeService.favoriteRecipe(recipe, id).subscribe((res) => {
-    //   console.log(res);
-    // });
+    this.recipeService.favoriteRecipe(recipe, id).subscribe((res) => {
+      console.log(res);
+    });
 
     event.target.classList.toggle('favorite_btn');
   }

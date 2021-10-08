@@ -8,7 +8,11 @@
           [formControl]="searchQuery"
         />
 
-        <button (click)="submitSearch($event)" class="btn search_btn">
+        <button
+          (click)="submitSearch($event)"
+          class="btn search_btn"
+          type="submit"
+        >
           <i class="material-icons search_icon">search</i>
         </button>
       </div>

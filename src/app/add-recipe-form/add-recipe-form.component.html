@@ -1,9 +1,15 @@
 <div class="recipePage container">
-  <h2>Add New Recipe</h2>
+  <h3>Add New Recipe</h3>
   <form [formGroup]="recipeForm" (submit)="formSubmit()" ngNativeValidate>
     <div class="input-field">
       <label for="title">Recipe Name: </label>
-      <input id="title" type="text" formControlName="title" required />
+      <input
+        id="title"
+        type="text"
+        formControlName="title"
+        required
+        autofocus
+      />
     </div>
 
     <div class="input-field">
@@ -65,6 +71,7 @@
           id="instruction-{{ i }}"
           type="textarea"
           [formControlName]="i"
+          maxlength="255"
         ></textarea>
       </div>
       <button class="btn" (click)="addInstructions($event)">
@@ -81,14 +88,15 @@
           id="note-{{ i }}"
           type="textarea"
           [formControlName]="i"
+          maxlength="255"
         ></textarea>
       </div>
       <button class="btn" (click)="addNotes($event)">Add another note</button>
     </div>
 
-    <h4>Tags:</h4>
+    <h4>Primary Tag:</h4>
     <div class="input-field">
-      <label for="primaryTag">Primary Tag: </label>
+      <label for="primaryTag"></label>
       <input
         id="primaryTag"
         type="text"
@@ -99,9 +107,10 @@
     </div>
 
     <div formArrayName="tags">
+      <h4>Additional Tags:</h4>
       <div *ngFor="let tag of tags.controls; let i = index">
         <div class="input-field">
-          <label for="tag-{{ i }}">Additional Tag:</label>
+          <label for="tag-{{ i }}"></label>
           <input
             id="tag-{{ i }}"
             type="text"

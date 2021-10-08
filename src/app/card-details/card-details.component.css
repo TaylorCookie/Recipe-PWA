@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap");
+
 a {
   color: inherit;
 }
@@ -18,15 +20,6 @@ a {
   background-color: #ff625e;
 }
 
-/* .favorite_btn_true {
-  background-color: #ff625e;
-}
-
-.favorite_btn_false {
-  background-color: #ff625e;
-  background-color: #b3b3b3;
-} */
-
 .card_info_container {
   display: flex;
   justify-content: space-between;
@@ -43,6 +36,8 @@ a {
 .card-title {
   font-weight: bold;
   padding-bottom: 15px;
+  font-size: 36px;
+  font-family: "Dancing Script", cursive, Arial, Helvetica, sans-serif;
 }
 
 .card_info {

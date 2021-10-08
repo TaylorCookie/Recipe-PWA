@@ -15,130 +15,134 @@ export class RecipeService {
   constructor(private http: HttpClient) {}
 
   /////////////////////////////////////////
-  /*HTTP Requests*/ ////////////////////////
+  /*HTTP Requests For Mock Data*/ /////////
   /////////////////////////////////////////
-  getRecipes(): Observable<Recipe[]> {
-    return of(RECIPES);
-  }
-
-  getRecipeByID(id: number): Observable<Recipe> {
-    return of(RECIPES[2]);
-  }
-
-  addRecipe(recipe: NewRecipe): Observable<Recipe> {
-    return of(RECIPES[0]);
-  }
-
-  deleteRecipe(id: number): Observable<Recipe> {
-    return of(RECIPES[0]);
-  }
-
-  updateRecipe(recipe: Recipe, id: number): void {}
-
-  favoriteRecipe(recipe: Recipe, id: number): void {}
-
-  searchByTitle(searchTerm: string): Observable<(Recipe | undefined)[]> {
-    const recipes = RECIPES.filter((recipe) => {
-      //check if recipe title includes the search term
-      if (recipe.title.toLowerCase().includes(searchTerm)) {
-        //if true, return the recipe
-        return recipe;
-      }
-      //else, return nothing
-      return false;
-    });
-
-    return of(recipes);
-  }
-
-  searchByTag(searchTerm: string): Observable<(Recipe | undefined)[]> {
-    const recipes = RECIPES.filter((recipe) => {
-      //check if recipe tags include the search term
-      if (
-        recipe.tags.some((tag) => {
-          if (tag.toLowerCase().includes(searchTerm)) {
-            return true;
-          }
-          return false;
-        })
-      ) {
-        //if true, return the recipe
-        return recipe;
-      }
-      //else, return nothing
-      return false;
-    });
-
-    return of(recipes);
-  }
-
-  searchByIngredient(searchTerm: string): Observable<(Recipe | undefined)[]> {
-    const recipes = RECIPES.filter((recipe) => {
-      //check if recipe tags include the search term
-      if (
-        recipe.ingredients.some((ing) => {
-          if (ing.toLowerCase().includes(searchTerm)) {
-            return true;
-          }
-          return false;
-        })
-      ) {
-        //if true, return the recipe
-        return recipe;
-      }
-      //else, return nothing
-      return false;
-    });
-
-    return of(recipes);
-  }
-
   // getRecipes(): Observable<Recipe[]> {
-  //   return this.http.get<Recipe[]>(`${this.configUrl}recipes`);
+  //   return of(RECIPES);
   // }
 
   // getRecipeByID(id: number): Observable<Recipe> {
-  //   return this.http.get<Recipe>(`${this.configUrl}recipe/${id}`);
+  //   return of(RECIPES[2]);
   // }
 
   // addRecipe(recipe: NewRecipe): Observable<Recipe> {
-  //   return this.http.post<Recipe>(`${this.configUrl}add-recipe`, recipe);
+  //   return of(RECIPES[0]);
   // }
 
   // deleteRecipe(id: number): Observable<Recipe> {
-  //   return this.http.delete<Recipe>(`${this.configUrl}delete-recipe/${id}`);
+  //   return of(RECIPES[0]);
   // }
 
-  // updateRecipe(recipe: Recipe, id: number): Observable<ArrayBuffer> {
-  //   return this.http.put<ArrayBuffer>(
-  //     `${this.configUrl}update-recipe/${id}`,
-  //     recipe
-  //   );
+  // updateRecipe(recipe: Recipe, id: number): void {}
+
+  // favoriteRecipe(recipe: Recipe, id: number): void {}
+
+  // searchByTitle(searchTerm: string): Observable<(Recipe | undefined)[]> {
+  //   const recipes = RECIPES.filter((recipe) => {
+  //     //check if recipe title includes the search term
+  //     if (recipe.title.toLowerCase().includes(searchTerm)) {
+  //       //if true, return the recipe
+  //       return recipe;
+  //     }
+  //     //else, return nothing
+  //     return false;
+  //   });
+
+  //   return of(recipes);
   // }
 
-  // favoriteRecipe(recipe: Recipe, id: number): Observable<ArrayBuffer> {
-  //   //reverse the favorite before sending request
-  //   recipe.favorite = !recipe.favorite;
+  // searchByTag(searchTerm: string): Observable<(Recipe | undefined)[]> {
+  //   const recipes = RECIPES.filter((recipe) => {
+  //     //check if recipe tags include the search term
+  //     if (
+  //       recipe.tags.some((tag) => {
+  //         if (tag.toLowerCase().includes(searchTerm)) {
+  //           return true;
+  //         }
+  //         return false;
+  //       })
+  //     ) {
+  //       //if true, return the recipe
+  //       return recipe;
+  //     }
+  //     //else, return nothing
+  //     return false;
+  //   });
 
-  //   return this.http.put<ArrayBuffer>(
-  //     `${this.configUrl}update-recipe/${id}`,
-  //     recipe
-  //   );
+  //   return of(recipes);
   // }
 
-  // searchByTitle(searchTerm: string): Observable<Recipe[]> {
-  //   return this.http.get<Recipe[]>(
-  //     `${this.configUrl}recipe/by-title/${searchTerm}`
-  //   );
+  // searchByIngredient(searchTerm: string): Observable<(Recipe | undefined)[]> {
+  //   const recipes = RECIPES.filter((recipe) => {
+  //     //check if recipe tags include the search term
+  //     if (
+  //       recipe.ingredients.some((ing) => {
+  //         if (ing.toLowerCase().includes(searchTerm)) {
+  //           return true;
+  //         }
+  //         return false;
+  //       })
+  //     ) {
+  //       //if true, return the recipe
+  //       return recipe;
+  //     }
+  //     //else, return nothing
+  //     return false;
+  //   });
+
+  //   return of(recipes);
   // }
 
-  // searchByTag(searchTerm: string): Observable<Recipe[]> {
-  //   return this.http.get<Recipe[]>(`${this.configUrl}recipe/by-tags/${searchTerm}`);
-  // }
+  getRecipes(): Observable<Recipe[]> {
+    return this.http.get<Recipe[]>(`${this.configUrl}recipes`);
+  }
 
-  // searchByIngredient(searchTerm: string): Observable<Recipe[]> {
-  //   return this.http.get<Recipe[]>(`${this.configUrl}recipe/by-ingredients/${searchTerm}`);
-  // }
+  getRecipeByID(id: number): Observable<Recipe> {
+    return this.http.get<Recipe>(`${this.configUrl}recipe/${id}`);
+  }
+
+  addRecipe(recipe: NewRecipe): Observable<Recipe> {
+    return this.http.post<Recipe>(`${this.configUrl}add-recipe`, recipe);
+  }
+
+  deleteRecipe(id: number): Observable<Recipe> {
+    return this.http.delete<Recipe>(`${this.configUrl}delete-recipe/${id}`);
+  }
+
+  updateRecipe(recipe: NewRecipe, id: number): Observable<ArrayBuffer> {
+    return this.http.put<ArrayBuffer>(
+      `${this.configUrl}update-recipe/${id}`,
+      recipe
+    );
+  }
+
+  favoriteRecipe(recipe: Recipe, id: number): Observable<ArrayBuffer> {
+    //reverse the favorite before sending request
+    recipe.favorite = !recipe.favorite;
+
+    return this.http.put<ArrayBuffer>(
+      `${this.configUrl}update-recipe/${id}`,
+      recipe
+    );
+  }
+
+  searchByTitle(searchTerm: string): Observable<Recipe[]> {
+    return this.http.get<Recipe[]>(
+      `${this.configUrl}recipe/by-title/${searchTerm}`
+    );
+  }
+
+  searchByTag(searchTerm: string): Observable<Recipe[]> {
+    return this.http.get<Recipe[]>(
+      `${this.configUrl}recipe/by-tags/${searchTerm}`
+    );
+  }
+
+  searchByIngredient(searchTerm: string): Observable<Recipe[]> {
+    return this.http.get<Recipe[]>(
+      `${this.configUrl}recipe/by-ingredients/${searchTerm}`
+    );
+  }
 
   /////////////////////////////////////////
   /*Functions used by multiple components*/

@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap");
+
 p {
   margin: 0;
   padding: 0;
@@ -10,7 +12,8 @@ li > a {
 h3 {
   margin: 0;
   font-weight: bold;
-  font-size: 36px;
+  font-size: 44px;
+  font-family: "Dancing Script", cursive, Arial, Helvetica, sans-serif;
 }
 
 i:hover {
@@ -28,6 +31,7 @@ i:hover {
 
 .logo {
   height: 50px;
+  width: 50px;
   margin-right: 5px;
   border: 1px solid black;
   border-radius: 50px;

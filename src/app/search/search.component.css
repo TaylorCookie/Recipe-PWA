@@ -47,6 +47,7 @@ h3 {
   flex-direction: column;
   justify-content: center;
   margin-top: 25px;
+  padding: 10px;
 }
 
 .nothing_found_heading {

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Recipe } from 'src/assets/interfaces/recipe';
 import { RecipeService } from '../recipe.service';
 import { FormControl, FormArray, FormBuilder } from '@angular/forms';
@@ -11,14 +11,15 @@ import { FormControl, FormArray, FormBuilder } from '@angular/forms';
 })
 export class RecipeEditorComponent implements OnInit {
   recipe?: Recipe;
-  favorite?: boolean;
+  favorite: boolean = false;
   recipeForm?: any;
   helpClicked: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
     private recipeService: RecipeService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -122,7 +123,13 @@ export class RecipeEditorComponent implements OnInit {
       .trim();
 
     if (res === recipe.title.toLowerCase().trim()) {
-      console.log('send delete request');
+      this.recipeService
+        .deleteRecipe(this.recipe!.id)
+        .subscribe((recipe: Recipe) => {
+          window.alert('Recipe has been deleted!');
+
+          this.router.navigate(['/']);
+        });
     }
   }
 
@@ -154,7 +161,8 @@ export class RecipeEditorComponent implements OnInit {
   }
 
   imageHandler() {
-    if (this.recipe?.imageSrc === '../assets/images/placeholder.png') {
+    //check if image is default, hide if true
+    if (this.recipe?.imageSrc === '../../assets/images/placeholder.png') {
       return '';
     }
 
@@ -162,7 +170,7 @@ export class RecipeEditorComponent implements OnInit {
   }
 
   checkEmptyImage(): string {
-    if (this.recipeForm.get('imageSrc')?.value) {
+    if (this.recipeForm.get('imageSrc')?.value.trim()) {
       return this.recipeForm.get('imageSrc')?.value;
     }
 
@@ -270,16 +278,20 @@ export class RecipeEditorComponent implements OnInit {
           return s.length > 0;
         })
         .map((s: string) => {
-          let separateWords = s.toLowerCase().split(' ');
-          let capsWords = separateWords.map((word) => {
-            return word.charAt(0).toUpperCase() + word.substring(1);
-          });
-
-          return capsWords.join(' ');
+          return this.capitalize(s);
         });
     }
 
     return cleanedArr;
+  }
+
+  capitalize(input: string): string {
+    let separateWords = input.toLowerCase().split(' ');
+    let capsWords = separateWords.map((word) => {
+      return word.charAt(0).toUpperCase() + word.substring(1);
+    });
+
+    return capsWords.join(' ');
   }
 
   handleSubmit() {
@@ -306,7 +318,7 @@ export class RecipeEditorComponent implements OnInit {
       title: this.recipeForm.get('title')?.value,
       serves: <number>this.recipeForm.get('serves')?.value,
       time: <number>this.recipeForm.get('time')?.value,
-      primaryTag: this.recipeForm.get('primaryTag')?.value,
+      primaryTag: this.capitalize(this.recipeForm.get('primaryTag')?.value),
       tags: finalTags,
       imageSrc: this.checkEmptyImage(), //call to check if image src is empty
       favorite: this.favorite,
@@ -315,11 +327,14 @@ export class RecipeEditorComponent implements OnInit {
       notes: finalNotes,
     };
 
-    console.log(updatedRecipe);
+    // request to add the recipe
+    this.recipeService
+      .updateRecipe(updatedRecipe, this.recipe!.id)
+      .subscribe((data) => {
+        window.alert('Recipe has been updated!');
 
-    //request to add the recipe
-    // this.recipeService.updateRecipe(updatedRecipe).subscribe((data) => {
-    //   console.log(data);
-    // });
+        //route back to display this recipe
+        this.router.navigate([`/recipe/${this.recipe!.id}`]);
+      });
   }
 }

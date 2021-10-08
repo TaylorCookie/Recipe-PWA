@@ -50,7 +50,7 @@
     </div>
   </div>
 
-  <div class="notes_container">
+  <div class="notes_container" *ngIf="recipe?.notes?.length !== 0">
     <h5 class="section_title">Notes</h5>
     <div *ngFor="let note of recipe?.notes; let i = index">
       <p class="notes_listing">

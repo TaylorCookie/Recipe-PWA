@@ -22,90 +22,52 @@ export class SearchComponent implements OnInit {
   loadingByIngredient: boolean = false;
 
   searchClicked: boolean = false;
-  byTitleClicked: boolean = true;
-  byTagClicked: boolean = false;
-  byIngredientClicked: boolean = false;
 
   constructor(private recipeService: RecipeService) {}
 
-  ngOnInit(): void {
-    // this.recipeService
-    //   .searchByTitle(this.searchQuery.value.toLowerCase())
-    //   .subscribe((recipes: (Recipe | undefined)[]) => {
-    //     this.recipesByTitle = recipes;
-    //     this.loadingByTitle = false;
-    //     console.log('Title:', this.recipesByTitle);
-    //   });
-    // this.recipeService
-    //   .searchByTag(this.searchQuery.value.toLowerCase())
-    //   .subscribe((recipes: (Recipe | undefined)[]) => {
-    //     this.recipesByTag = recipes;
-    //     this.loadingByTag = false;
-    //     console.log('Tags:', this.recipesByTag);
-    //   });
-    // this.recipeService
-    //   .searchByIngredient(this.searchQuery.value.toLowerCase())
-    //   .subscribe((recipes: (Recipe | undefined)[]) => {
-    //     this.recipesByIngredient = recipes;
-    //     this.loadingByIngredient = false;
-    //     console.log('Ingredients:', this.recipesByIngredient);
-    //   });
-  }
+  ngOnInit(): void {}
 
   submitSearch(event: any) {
     event.preventDefault();
+
+    //guard clause against searching by nothing
+    if (!this.searchQuery.value.trim()) {
+      return;
+    }
+
     this.loadingByTitle = true;
     this.loadingByTag = true;
     this.loadingByIngredient = true;
     this.searchClicked = true;
 
-    setTimeout(() => {
-      this.getRecipes();
-    }, 3000);
-
-    // this.recipeService
-    //   .searchByCategoryOrRecipeNameOrIngredient(
-    //     this.searchQuery.value.toLowerCase()
-    //   )
-    //   .subscribe((recipes: (Recipe | undefined)[]) => {
-    //     setTimeout(() => {
-    //       this.recipes = recipes;
-    //       this.loading = false;
-    //       console.log(this.recipes);
-    //     }, 3000);
-    //   });
+    this.getRecipes();
   }
 
   getRecipes() {
     this.recipeService
-      .searchByTitle(this.searchQuery.value.toLowerCase())
+      .searchByTitle(this.searchQuery.value.toLowerCase().trim())
       .subscribe((recipes: (Recipe | undefined)[]) => {
         this.recipesByTitle = recipes;
         this.loadingByTitle = false;
-        console.log('Title:', this.recipesByTitle);
       });
 
     this.recipeService
-      .searchByTag(this.searchQuery.value.toLowerCase())
+      .searchByTag(this.searchQuery.value.toLowerCase().trim())
       .subscribe((recipes: (Recipe | undefined)[]) => {
         this.recipesByTag = recipes;
         this.loadingByTag = false;
-        console.log('Tags:', this.recipesByTag);
       });
 
     this.recipeService
-      .searchByIngredient(this.searchQuery.value.toLowerCase())
+      .searchByIngredient(this.searchQuery.value.toLowerCase().trim())
       .subscribe((recipes: (Recipe | undefined)[]) => {
         this.recipesByIngredient = recipes;
         this.loadingByIngredient = false;
-        console.log('Ingredients:', this.recipesByIngredient);
       });
   }
 
   btnRowClickHandler(event: any) {
-    // event.preventDefault();
-
-    //guard clause
+    //guard clause against clicks that are not on buttons
     if (!event.target.classList.contains('btn')) return;
 
     const btns = document.querySelectorAll('.selector_btns');
@@ -121,10 +83,6 @@ export class SearchComponent implements OnInit {
     //depending on dataset, set active clicked
     switch (event.target.dataset.name) {
       case 'title_btn': {
-        this.byTagClicked = false;
-        this.byIngredientClicked = false;
-        this.byTitleClicked = true;
-
         this.displayContainer(
           document.querySelector<HTMLElement>('.results_by_title_container')
         );
@@ -133,10 +91,6 @@ export class SearchComponent implements OnInit {
       }
 
       case 'tag_btn': {
-        this.byIngredientClicked = false;
-        this.byTitleClicked = false;
-        this.byTagClicked = true;
-
         this.displayContainer(
           document.querySelector<HTMLElement>('.results_by_tags_container')
         );
@@ -145,10 +99,6 @@ export class SearchComponent implements OnInit {
       }
 
       case 'ingredient_btn': {
-        this.byTitleClicked = false;
-        this.byTagClicked = false;
-        this.byIngredientClicked = true;
-
         this.displayContainer(
           document.querySelector<HTMLElement>(
             '.results_by_ingredients_container'
