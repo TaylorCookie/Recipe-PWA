@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Recipe } from 'dist/recipe-app/assets/interfaces/recipe';
+import { Recipe } from 'src/assets/interfaces/recipe';
 import { RecipeService } from '../recipe.service';
 
 @Component({

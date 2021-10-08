@@ -14,7 +14,11 @@
     </div>
 
     <div class="image_container">
-      <img class="image" src="{{ recipe?.imageSrc }}" />
+      <img
+        (error)="imageError($event)"
+        class="image"
+        src="{{ recipe?.imageSrc }}"
+      />
     </div>
 
     <div class="info_container">

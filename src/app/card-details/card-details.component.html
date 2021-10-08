@@ -2,7 +2,11 @@
   <div class="card">
     <div class="card-image">
       <a href="/recipe/{{ recipe.id }}">
-        <img class="card_image" src="{{ recipe.imageSrc }}" />
+        <img
+          (error)="imageError($event)"
+          class="card_image"
+          src="{{ recipe.imageSrc }}"
+        />
       </a>
 
       <button

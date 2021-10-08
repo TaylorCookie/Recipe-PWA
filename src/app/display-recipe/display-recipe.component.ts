@@ -32,4 +32,8 @@ export class DisplayRecipeComponent implements OnInit {
       this.timeFormatted = this.recipeService.convertTime(recipe.time);
     });
   }
+
+  imageError(event: any) {
+    this.recipeService.imageErrorHandler(event);
+  }
 }

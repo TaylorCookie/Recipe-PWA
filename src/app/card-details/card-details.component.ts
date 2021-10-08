@@ -16,6 +16,16 @@ export class CardDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.timeFormatted = this.recipeService.convertTime(this.recipe?.time);
+
+    // console.log(document.querySelector('.card_image'));
+
+    // document.querySelector('.card_image')?.addEventListener('load', () => {
+    //   console.log('Loaded');
+    // });
+
+    // document.querySelector('.card_image')?.addEventListener('error', () => {
+    //   console.log('Error');
+    // });
   }
 
   updateFavorite(event: any, id: number, recipe: Recipe): void {
@@ -24,5 +34,9 @@ export class CardDetailsComponent implements OnInit {
     });
 
     event.target.classList.toggle('favorite_btn');
+  }
+
+  imageError(event: any) {
+    this.recipeService.imageErrorHandler(event);
   }
 }

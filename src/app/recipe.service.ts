@@ -165,4 +165,9 @@ export class RecipeService {
   getRandomBackgroundColor(): string {
     return `hsl(${Math.floor(Math.random() * 360)}, 70%, 90%)`;
   }
+
+  //if image errors out, replace with placeholder image
+  imageErrorHandler(event: any) {
+    event.target.src = '../../assets/images/placeholder.png';
+  }
 }
