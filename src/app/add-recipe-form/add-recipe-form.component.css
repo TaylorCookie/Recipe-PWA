@@ -25,9 +25,20 @@ textarea {
   margin-top: 5px;
 }
 
+.submit_cancel_row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.cancel_btn {
+  background-color: hsl(0, 100%, 70%);
+  width: 30%;
+}
+
 .submit_btn {
   background-color: hsl(204, 70%, 50%);
-  margin-top: 30px;
+  width: 65%;
 }
 
 .recipePage {

@@ -142,7 +142,7 @@
             "
             formArrayName="instructions"
           >
-            <label for="ins-{{ i }}"></label>
+            <label for="ins-{{ i }}">Instruction {{ i + 1 }}:</label>
             <textarea
               [formControlName]="i"
               type="textarea"
@@ -191,7 +191,7 @@
             *ngFor="let note of recipeForm.get('notes').controls; let i = index"
             formArrayName="notes"
           >
-            <label for="note-{{ i }}"></label>
+            <label for="note-{{ i }}">Note {{ i + 1 }}:</label>
             <textarea
               [formControlName]="i"
               type="textarea"
@@ -288,9 +288,13 @@
       </div>
       <!--End of container div-->
 
-      <button class="btn submit_btn" type="submit">
-        Submit Updated Recipe
-      </button>
+      <div class="submit_cancel_row">
+        <button class="btn submit_btn" type="submit">Submit Update</button>
+
+        <button class="btn cancel_btn" (click)="cancelHander()" type="button">
+          Cancel
+        </button>
+      </div>
     </div>
   </form>
 </div>

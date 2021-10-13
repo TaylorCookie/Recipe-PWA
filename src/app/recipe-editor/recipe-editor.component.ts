@@ -294,6 +294,11 @@ export class RecipeEditorComponent implements OnInit {
     return capsWords.join(' ');
   }
 
+  cancelHander() {
+    //route back to display this recipe
+    this.router.navigate([`/recipe/${this.recipe!.id}`]);
+  }
+
   handleSubmit() {
     const finalIngredients = this.sanitize(
       this.recipeForm.get('ingredients')?.value,

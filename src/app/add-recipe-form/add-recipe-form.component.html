@@ -122,7 +122,13 @@
       <button class="btn" (click)="addTags($event)">Add another tag</button>
     </div>
 
-    <button class="btn submit_btn" type="submit">Submit New Recipe</button>
+    <div class="submit_cancel_row">
+      <button class="btn submit_btn" type="submit">Add Recipe</button>
+
+      <button class="btn cancel_btn" (click)="cancelHander()" type="button">
+        Cancel
+      </button>
+    </div>
   </form>
 </div>
 

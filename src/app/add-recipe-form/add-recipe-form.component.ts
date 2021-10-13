@@ -141,6 +141,10 @@ export class AddRecipeFormComponent {
     // }
   }
 
+  cancelHander() {
+    this.router.navigate([`/`]);
+  }
+
   formSubmit() {
     //format the different submissions
     const cleanedIngredients = this.sanitize(
